@@ -36,6 +36,7 @@ class SearchHit:
     folder: str
     size: int
     modified: float
+    body_excerpt: str = ""
 
 
 def normalize(text):

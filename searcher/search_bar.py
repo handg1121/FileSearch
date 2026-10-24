@@ -32,10 +32,11 @@ class SearchBar(QFrame):
         self.name_check = QCheckBox("파일명")
         self.name_check.setChecked(True)
         option_row.addWidget(self.name_check)
-        for text in ("파일 내용", "태그"):
-            check = QCheckBox(f"{text} (준비 중)")
-            check.setEnabled(False)
-            option_row.addWidget(check)
+        self.content_check = QCheckBox("파일 내용")
+        option_row.addWidget(self.content_check)
+        self.tag_check = QCheckBox("태그 (준비 중)")
+        self.tag_check.setEnabled(False)
+        option_row.addWidget(self.tag_check)
         option_row.addStretch()
         option_row.addWidget(make_label("파일 종류", "muted"))
         self.type_combo = QComboBox()
@@ -51,12 +52,37 @@ class SearchBar(QFrame):
         reset_button.clicked.connect(self.reset_filters)
         option_row.addWidget(reset_button)
         layout.addLayout(option_row)
+        self.content_hint = make_label(
+            "본문은 띄어쓰기를 포함해 입력한 문구를 찾아요. 지원: HWP·HWPX·TXT. "
+            "파일명도 선택하면 둘 중 하나에 맞는 파일을 보여 줘요.", "muted"
+        )
+        self.content_hint.setWordWrap(True)
+        layout.addWidget(self.content_hint)
+        self.name_check.toggled.connect(self.update_keyword_hint)
+        self.content_check.toggled.connect(self.update_keyword_hint)
+        self.update_keyword_hint()
 
     def keyword_text(self):
         return self.keyword_input.text()
 
     def name_search_enabled(self):
         return self.name_check.isChecked()
+
+    def content_search_enabled(self):
+        return self.content_check.isChecked()
+
+    def update_keyword_hint(self):
+        if self.content_search_enabled():
+            if self.name_search_enabled():
+                placeholder = "파일명 또는 본문에서 찾을 검색어 입력"
+            else:
+                placeholder = "본문에서 찾을 문구 입력 (띄어쓰기 포함)"
+        elif self.name_search_enabled():
+            placeholder = "파일명으로 검색 (띄어쓰기로 여러 단어, 비워 두면 전체)"
+        else:
+            placeholder = "검색할 항목을 선택하세요"
+        self.keyword_input.setPlaceholderText(placeholder)
+        self.content_hint.setVisible(self.content_search_enabled())
 
     def extensions(self):
         return TYPE_GROUPS[self.type_combo.currentText()]

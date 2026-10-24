@@ -38,6 +38,10 @@ def get_save_dir():
     return load_settings().get("save_dir") or DEFAULT_SAVE_DIR
 
 
+def get_body_cache_path():
+    return os.path.join(os.path.dirname(SETTINGS_PATH), "body_cache.sqlite3")
+
+
 def set_save_dir(path):
     settings = load_settings()
     settings["save_dir"] = path

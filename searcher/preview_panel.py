@@ -52,11 +52,11 @@ class PreviewPanel(QFrame):
         layout.addSpacing(4)
         layout.addWidget(make_separator())
         layout.addSpacing(4)
-        body_title = make_label("본문")
+        body_title = make_label("일치한 본문 일부")
         body_title.setStyleSheet("font-weight: bold;")
         layout.addWidget(body_title)
         self.body = QTextBrowser()
-        self.body.setPlaceholderText("본문 미리보기는 파일 내용 검색을 만들 때 함께 넣을 예정이에요.")
+        self.body.setPlaceholderText("본문 검색으로 찾은 파일을 선택하면 일치한 문구 주변을 보여 줘요.")
         self.body.setMinimumHeight(200)
         layout.addWidget(self.body, 1)
         layout.addSpacing(6)
@@ -68,6 +68,7 @@ class PreviewPanel(QFrame):
 
     def show_hit(self, hit):
         self.hit = hit
+        self.body.setPlainText(hit.body_excerpt if hit else "")
         set_type_icon(self.icon, hit.name if hit else "")
         if hit is None:
             self.name_label.setText("파일을 선택하세요")
