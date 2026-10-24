@@ -1,4 +1,5 @@
 '파일 검색기 - 메인 화면 (파일명 검색 동작, 태그는 아직 화면만)'
+# 테스트 주석: GitHub 커밋과 푸시 연결을 확인해요.
 import os
 import sys
 import time
