@@ -1,0 +1,22 @@
+test_collect_cancellation_after_one_file (test_core.CoreTests.test_collect_cancellation_after_one_file) ... ok
+test_collect_copy_duplicates_failure_and_journal (test_core.CoreTests.test_collect_copy_duplicates_failure_and_journal) ... ok
+test_copy_atomic_content_and_no_overwrite (test_core.CoreTests.test_copy_atomic_content_and_no_overwrite) ... ok
+test_copy_failure_removes_partial_file (test_core.CoreTests.test_copy_failure_removes_partial_file) ... ok
+test_cross_drive_branch_and_source_delete_failure (test_core.CoreTests.test_cross_drive_branch_and_source_delete_failure) ... ok
+test_duplicate_names_reserve_part_files (test_core.CoreTests.test_duplicate_names_reserve_part_files) ... ok
+test_recover_completed_move_and_mismatched_copy (test_core.CoreTests.test_recover_completed_move_and_mismatched_copy) ... ok
+test_recover_incomplete_part_preserves_source (test_core.CoreTests.test_recover_incomplete_part_preserves_source) ... ok
+test_same_drive_move (test_core.CoreTests.test_same_drive_move) ... ok
+test_scan_cancel_and_inaccessible_directory (test_core.CoreTests.test_scan_cancel_and_inaccessible_directory) ... ok
+test_scan_nested_excluded_and_overlapping_sources (test_core.CoreTests.test_scan_nested_excluded_and_overlapping_sources) ... ok
+test_search_filters_subfolders_and_work_files (test_core.CoreTests.test_search_filters_subfolders_and_work_files) ... ok
+test_settings_round_trip_and_corrupt_json (test_core.CoreTests.test_settings_round_trip_and_corrupt_json) ... ok
+test_sort_orders (test_core.CoreTests.test_sort_orders) ... ok
+test_space_accounts_for_copy_and_move (test_core.CoreTests.test_space_accounts_for_copy_and_move) ... ok
+test_unicode_keywords_and_dates (test_core.CoreTests.test_unicode_keywords_and_dates) ... ok
+test_windows_target_paths (test_core.CoreTests.test_windows_target_paths) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.102s
+
+OK

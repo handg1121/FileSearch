@@ -1,0 +1,1377 @@
+{
+  "python": "3.13.0 (tags/v3.13.0:60403a5, Oct  7 2024, 09:38:07) [MSC v.1941 64 bit (AMD64)]",
+  "modules": [
+    "collector/__init__.py",
+    "collector/collector.py",
+    "collector/progress_dialog.py",
+    "collector/result_dialog.py",
+    "collector/summary_dialog.py",
+    "collector/type_selector.py",
+    "collector/type_selector_script.py",
+    "collector/workers.py",
+    "common/__init__.py",
+    "common/file_actions.py",
+    "common/settings.py",
+    "common/widgets.py",
+    "main.py",
+    "searcher/__init__.py",
+    "searcher/filename_search.py",
+    "searcher/preview_panel.py",
+    "searcher/result_table.py",
+    "searcher/search_bar.py"
+  ],
+  "total": 166,
+  "passed": 166,
+  "compared": [
+    "co_code",
+    "co_exceptiontable",
+    "co_names",
+    "co_varnames",
+    "co_freevars",
+    "co_cellvars",
+    "co_argcount",
+    "co_posonlyargcount",
+    "co_kwonlyargcount",
+    "co_flags",
+    "co_stacksize",
+    "co_name",
+    "co_qualname",
+    "co_consts (recursive, type-sensitive)"
+  ],
+  "excluded": [
+    "co_filename",
+    "co_firstlineno",
+    "co_linetable",
+    "class __firstlineno__ source location constant"
+  ],
+  "results": [
+    {
+      "code": "collector/__init__.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6d3ee5f066757edff36dc5248fab8b58c7801aa99c231414b9650dbf46373d0a",
+      "recovered_bytecode_sha256": "6d3ee5f066757edff36dc5248fab8b58c7801aa99c231414b9650dbf46373d0a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "efb8f08a63c954bfa86ae5e35e2686d5bf0ce85f833654b0a52df7540d565226",
+      "recovered_bytecode_sha256": "efb8f08a63c954bfa86ae5e35e2686d5bf0ce85f833654b0a52df7540d565226",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/build_source_section@const3/<lambda>@const18",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a3b097ef0d98e25c60d112d4fc96bee219a555b7e30542547b788e25abaede79",
+      "recovered_bytecode_sha256": "a3b097ef0d98e25c60d112d4fc96bee219a555b7e30542547b788e25abaede79",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/build_source_section@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "06f512751dd3baf385f38d201f31cc9d0959da7ae27b755be54b34a49ecff484",
+      "recovered_bytecode_sha256": "06f512751dd3baf385f38d201f31cc9d0959da7ae27b755be54b34a49ecff484",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/update_source_mode@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ff228778482b26017840ca1e976daf70168119cc58a6d3bebed9fe4381469ac2",
+      "recovered_bytecode_sha256": "ff228778482b26017840ca1e976daf70168119cc58a6d3bebed9fe4381469ac2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/build_target_section@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "574d36d0925af56f14db6ef5d214298bff4fd47033c67aad3060784affc9b1d2",
+      "recovered_bytecode_sha256": "574d36d0925af56f14db6ef5d214298bff4fd47033c67aad3060784affc9b1d2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/choose_folder@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "1e0ff7afe162830d1b2013abdc56049da68103133bd344310588beebfaa69b00",
+      "recovered_bytecode_sha256": "1e0ff7afe162830d1b2013abdc56049da68103133bd344310588beebfaa69b00",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/change_target@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "406577de7826aba468c908deaf5593d735f0ad5d795adadd57e569ee85223f8e",
+      "recovered_bytecode_sha256": "406577de7826aba468c908deaf5593d735f0ad5d795adadd57e569ee85223f8e",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/save_target@const8",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "e54bd5c8ef2d41f28a0132f8de9bca511acd3249623ab50535de8e2328b59dad",
+      "recovered_bytecode_sha256": "e54bd5c8ef2d41f28a0132f8de9bca511acd3249623ab50535de8e2328b59dad",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/build_footer@const9",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "fcdd5be40f361184441c133ebc3e9cc43249cbe49e0e9b055326bbe29a667ae9",
+      "recovered_bytecode_sha256": "fcdd5be40f361184441c133ebc3e9cc43249cbe49e0e9b055326bbe29a667ae9",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/update_footer@const10",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "7b985c726c2231930319cf46549aadb7dceb9fd1dd171ebf3a0537224307a76d",
+      "recovered_bytecode_sha256": "7b985c726c2231930319cf46549aadb7dceb9fd1dd171ebf3a0537224307a76d",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/start@const11",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "cc3cdfbc9fa99242210ea2fe503dbb923237caf0967d58a2b9cef9df320b7a03",
+      "recovered_bytecode_sha256": "cc3cdfbc9fa99242210ea2fe503dbb923237caf0967d58a2b9cef9df320b7a03",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/selected_sources@const12",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "02c02e7d394ddba3a206c1295c84afbc60349c53dc019783a54e74177802b837",
+      "recovered_bytecode_sha256": "02c02e7d394ddba3a206c1295c84afbc60349c53dc019783a54e74177802b837",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/selected_target@const13",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "99f9c335f2e33c4950950f32a3700c674c133594a43f3368a13a69c42166443d",
+      "recovered_bytecode_sha256": "99f9c335f2e33c4950950f32a3700c674c133594a43f3368a13a69c42166443d",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/scan@const14/show_progress@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "880a9cc0b0325619976a8cca49d5ac7af04704501bbba508dd779c9de97c757a",
+      "recovered_bytecode_sha256": "880a9cc0b0325619976a8cca49d5ac7af04704501bbba508dd779c9de97c757a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/scan@const14",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b38283a3793df10357d6bd4b47f8c3b5e9584f818eb3ca7a4873f4272c93b44c",
+      "recovered_bytecode_sha256": "b38283a3793df10357d6bd4b47f8c3b5e9584f818eb3ca7a4873f4272c93b44c",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/collect@const15/show_progress@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "e493f1ff71efdd33bbadb92d6dbedf5c9b076a3025e80b7bc8e7f52ddb3486a7",
+      "recovered_bytecode_sha256": "e493f1ff71efdd33bbadb92d6dbedf5c9b076a3025e80b7bc8e7f52ddb3486a7",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/collect@const15",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "3d65be8e028e83f0ef0518ea31f806bd8a70751a8e6df94e6558138cdc764055",
+      "recovered_bytecode_sha256": "3d65be8e028e83f0ef0518ea31f806bd8a70751a8e6df94e6558138cdc764055",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13/show_error@const16",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ecf9ad8f74c4b666b68b1a6aeae33cc36ff01aaf8e32745c4cf94853c95b6015",
+      "recovered_bytecode_sha256": "ecf9ad8f74c4b666b68b1a6aeae33cc36ff01aaf8e32745c4cf94853c95b6015",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py/CollectDialog@const13",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f679867f21f9e419bc0c9874ca719dda297d10827ea8ebf19c4c5b3e05f77e1a",
+      "recovered_bytecode_sha256": "f679867f21f9e419bc0c9874ca719dda297d10827ea8ebf19c4c5b3e05f77e1a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/collector.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "83837f28731976c9db4dd69b18fd1cdf5ac75583424b825f10dd0252d9772560",
+      "recovered_bytecode_sha256": "83837f28731976c9db4dd69b18fd1cdf5ac75583424b825f10dd0252d9772560",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py/ProgressDialog@const5/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "28b08364f02f540bfd72efe7373536615ba3b740170c72e050abeb51ab270324",
+      "recovered_bytecode_sha256": "28b08364f02f540bfd72efe7373536615ba3b740170c72e050abeb51ab270324",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py/ProgressDialog@const5/set_status@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "d8a4a0816d1d7d3d6173640b1cfaef5acd26d3c63f358c6bb5500d755a3badbe",
+      "recovered_bytecode_sha256": "d8a4a0816d1d7d3d6173640b1cfaef5acd26d3c63f358c6bb5500d755a3badbe",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py/ProgressDialog@const5/set_detail@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "232e72a48e0ed367c3e6f9c6a24e19af4fd3b0703e0561d00970871756454607",
+      "recovered_bytecode_sha256": "232e72a48e0ed367c3e6f9c6a24e19af4fd3b0703e0561d00970871756454607",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py/ProgressDialog@const5/set_progress@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "30beedc1b0a0b6f1cc51a3c494887d75f946307826725c7233179ef686bda3a4",
+      "recovered_bytecode_sha256": "30beedc1b0a0b6f1cc51a3c494887d75f946307826725c7233179ef686bda3a4",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py/ProgressDialog@const5/request_cancel@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "3d878fd4c7f2bf7fd06bde0140c8912b9f682646543ae33da1325eb9a8cd8ddd",
+      "recovered_bytecode_sha256": "3d878fd4c7f2bf7fd06bde0140c8912b9f682646543ae33da1325eb9a8cd8ddd",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py/ProgressDialog@const5/reject@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6eb7df5b8d2aa55341142fef11107228610ae10dac3fb219ff9de53041fcb885",
+      "recovered_bytecode_sha256": "6eb7df5b8d2aa55341142fef11107228610ae10dac3fb219ff9de53041fcb885",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py/ProgressDialog@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f70b5aa9db544be47dbd0387cc49d4365f0e3f6f576b16b74a0364c968a4ade6",
+      "recovered_bytecode_sha256": "f70b5aa9db544be47dbd0387cc49d4365f0e3f6f576b16b74a0364c968a4ade6",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/progress_dialog.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "14d44b74cba2b140934c36f99f90eed13230dfa5de0d1406dc1c53748f267235",
+      "recovered_bytecode_sha256": "14d44b74cba2b140934c36f99f90eed13230dfa5de0d1406dc1c53748f267235",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/result_dialog.py/ResultDialog@const5/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "5f1af8cb481e24f62f8c45a27d3150e3bb0cd283348643e6cb3ac8f1b804ec9b",
+      "recovered_bytecode_sha256": "5f1af8cb481e24f62f8c45a27d3150e3bb0cd283348643e6cb3ac8f1b804ec9b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/result_dialog.py/ResultDialog@const5/build_failed_table@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b75975b63d7f16b7bec011333988eddf6af572a9513661fc034cea1399da5372",
+      "recovered_bytecode_sha256": "b75975b63d7f16b7bec011333988eddf6af572a9513661fc034cea1399da5372",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/result_dialog.py/ResultDialog@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "d3fa890b65ade095bd3fcd918de6f1145848a97cdbaaa76024586fbbfc33b7c5",
+      "recovered_bytecode_sha256": "d3fa890b65ade095bd3fcd918de6f1145848a97cdbaaa76024586fbbfc33b7c5",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/result_dialog.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ede65a6fa6c336bc8cb89f3e740a9b4e755bf5556656dee60319e167872ac4e7",
+      "recovered_bytecode_sha256": "ede65a6fa6c336bc8cb89f3e740a9b4e755bf5556656dee60319e167872ac4e7",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/SummaryDialog@const6/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "abc707d1a4ff635bc3a7f1a8a81739579693f2cac276383050259f6b5157affb",
+      "recovered_bytecode_sha256": "abc707d1a4ff635bc3a7f1a8a81739579693f2cac276383050259f6b5157affb",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/SummaryDialog@const6/build_type_table@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6be8c9a99b31fbf12d1604144efb366e74056c28d0f1379c7c9330a6f9449319",
+      "recovered_bytecode_sha256": "6be8c9a99b31fbf12d1604144efb366e74056c28d0f1379c7c9330a6f9449319",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/SummaryDialog@const6/build_buttons@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "273597d62710a4483b87fdbcc7d47122cfaf7271413b979133c2bf88b4e6d9f7",
+      "recovered_bytecode_sha256": "273597d62710a4483b87fdbcc7d47122cfaf7271413b979133c2bf88b4e6d9f7",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/SummaryDialog@const6/choose_copy@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ecd78e8021091ec4479f5bb60722f6861a3964f1b20eca449a2b52c1187de5a8",
+      "recovered_bytecode_sha256": "ecd78e8021091ec4479f5bb60722f6861a3964f1b20eca449a2b52c1187de5a8",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/SummaryDialog@const6/choose_move@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b19dda54a17f709609d65957126cfae37bef29903ead7d8b4e1144127cd28c11",
+      "recovered_bytecode_sha256": "b19dda54a17f709609d65957126cfae37bef29903ead7d8b4e1144127cd28c11",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/SummaryDialog@const6/warn_no_space@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f8d539e0bf054e373a74cc54fd84344d2258ec244d7c42b5c7e45e85720ccc12",
+      "recovered_bytecode_sha256": "f8d539e0bf054e373a74cc54fd84344d2258ec244d7c42b5c7e45e85720ccc12",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/SummaryDialog@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "1091cf437741da7561f2409193543fb1a590df97202d0c7517387ada28d1aab5",
+      "recovered_bytecode_sha256": "1091cf437741da7561f2409193543fb1a590df97202d0c7517387ada28d1aab5",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py/ask@const8",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4c3dca2360f905d12736ad5aaa484cbec9ae6269981fff934621e7c568ca8cc2",
+      "recovered_bytecode_sha256": "4c3dca2360f905d12736ad5aaa484cbec9ae6269981fff934621e7c568ca8cc2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/summary_dialog.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "d4c215d117c0ca37825bd18c201b2292b2e30b46a4edfeffc5f5a1071b2cb319",
+      "recovered_bytecode_sha256": "d4c215d117c0ca37825bd18c201b2292b2e30b46a4edfeffc5f5a1071b2cb319",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeTile@const7/__init__@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "baaf4fb79902e116d612f0df1e25def347bd47c8ec7f335687ce686892fe06ac",
+      "recovered_bytecode_sha256": "baaf4fb79902e116d612f0df1e25def347bd47c8ec7f335687ce686892fe06ac",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeTile@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b488e329c272284c5eb6259178dea273ee4005a3fa44bed59bc42ad7232c9914",
+      "recovered_bytecode_sha256": "b488e329c272284c5eb6259178dea273ee4005a3fa44bed59bc42ad7232c9914",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeSelector@const9/__init__@const3/<lambda>@const10",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "8a0fdf5f5f5a95719c1b8e7413f7716c2e53e4f4ceb05c0cd883625fa708e615",
+      "recovered_bytecode_sha256": "8a0fdf5f5f5a95719c1b8e7413f7716c2e53e4f4ceb05c0cd883625fa708e615",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeSelector@const9/__init__@const3/<lambda>@const13",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "8a0fdf5f5f5a95719c1b8e7413f7716c2e53e4f4ceb05c0cd883625fa708e615",
+      "recovered_bytecode_sha256": "8a0fdf5f5f5a95719c1b8e7413f7716c2e53e4f4ceb05c0cd883625fa708e615",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeSelector@const9/__init__@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9e7373e51ec7b7213854f215f465d965e1d082c96c312d88e6b5f995f69e6d85",
+      "recovered_bytecode_sha256": "9e7373e51ec7b7213854f215f465d965e1d082c96c312d88e6b5f995f69e6d85",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeSelector@const9/set_all@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f3ee48d8d24bc6f995bbc056061c5e73b833fb18055bf7a90e271108dd091080",
+      "recovered_bytecode_sha256": "f3ee48d8d24bc6f995bbc056061c5e73b833fb18055bf7a90e271108dd091080",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeSelector@const9/selected_types@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "0f5f3ac8394ef26de1d720e7c71fe3effb8d489528cac255735436a0b0a4bc56",
+      "recovered_bytecode_sha256": "0f5f3ac8394ef26de1d720e7c71fe3effb8d489528cac255735436a0b0a4bc56",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeSelector@const9/update_count@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "5c9d698de79a57fccc95917c3ebdd979a84e6685f47336b0d3cee89f628ebc62",
+      "recovered_bytecode_sha256": "5c9d698de79a57fccc95917c3ebdd979a84e6685f47336b0d3cee89f628ebc62",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py/TypeSelector@const9",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "7c4198aaca542fdb1810a4daf403f8ca510e4679645a3053295cfdc3db88d029",
+      "recovered_bytecode_sha256": "7c4198aaca542fdb1810a4daf403f8ca510e4679645a3053295cfdc3db88d029",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b4d17ee21755ba9803663c3aa8b6c63e803686a5572114fc43ac6005c89705f7",
+      "recovered_bytecode_sha256": "b4d17ee21755ba9803663c3aa8b6c63e803686a5572114fc43ac6005c89705f7",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/FileItem@const13",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6e7c351b30d6689495ed0a55a913fe9e7a8d3bc22235a0bc62298dfc4e51e1d8",
+      "recovered_bytecode_sha256": "6e7c351b30d6689495ed0a55a913fe9e7a8d3bc22235a0bc62298dfc4e51e1d8",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/SpaceCheck@const15",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f3df0f8dbe8e446f21f745a76307551c4f35f9dc32ff98ac79f2455419a7fd4f",
+      "recovered_bytecode_sha256": "f3df0f8dbe8e446f21f745a76307551c4f35f9dc32ff98ac79f2455419a7fd4f",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/CollectResult@const17",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "346ae98c41c74db01eb1fb71d00d93be900a187a448b9ec976c61f5193617b4f",
+      "recovered_bytecode_sha256": "346ae98c41c74db01eb1fb71d00d93be900a187a448b9ec976c61f5193617b4f",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/scan_files@const19",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "d65a012a100f8b83c84ab98b26e68b08c29ae6203c6ead85b7d3d13168412ab2",
+      "recovered_bytecode_sha256": "d65a012a100f8b83c84ab98b26e68b08c29ae6203c6ead85b7d3d13168412ab2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/build_excluded_dirs@const20",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ded4f9795d1536f41c16d237a491747ba892175ad02eec1d3b8fbe76b80fbf5c",
+      "recovered_bytecode_sha256": "ded4f9795d1536f41c16d237a491747ba892175ad02eec1d3b8fbe76b80fbf5c",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/is_inside_any@const21",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "874bdd916ffbd35a7f602bcc87d329a1877c36a0d9cc6b114dac811268c1b3be",
+      "recovered_bytecode_sha256": "874bdd916ffbd35a7f602bcc87d329a1877c36a0d9cc6b114dac811268c1b3be",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/should_enter_dir@const22",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "c5936a5be64f4e6cb1961fd0b77c4c07056f3588b4b94de8091987464a0d4a7a",
+      "recovered_bytecode_sha256": "c5936a5be64f4e6cb1961fd0b77c4c07056f3588b4b94de8091987464a0d4a7a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/is_wanted_file@const23",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "7290de18b43b59ba56530bc5bbce9f7123da7227cef0a3477f1066285b37f959",
+      "recovered_bytecode_sha256": "7290de18b43b59ba56530bc5bbce9f7123da7227cef0a3477f1066285b37f959",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/make_target_path@const24",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "15c8258ac63e3358b16031ee913725da3d67adcf6f8a2861d18e485ac435de57",
+      "recovered_bytecode_sha256": "15c8258ac63e3358b16031ee913725da3d67adcf6f8a2861d18e485ac435de57",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/drive_folder_name@const26",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "0d39c19fd68600d9087cffdf6e9dbe47c15366e8103414450737583a9af880f2",
+      "recovered_bytecode_sha256": "0d39c19fd68600d9087cffdf6e9dbe47c15366e8103414450737583a9af880f2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/get_volume_label@const27",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f31395b369c3bcc0d2724d93b6f85576fa6972bd62923e9f8b73d10e4e99727b",
+      "recovered_bytecode_sha256": "f31395b369c3bcc0d2724d93b6f85576fa6972bd62923e9f8b73d10e4e99727b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/resolve_duplicate@const28",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "537049ac1000d50e07a27fb1e8ca029d0deead7709066aaef288344ea4eb216a",
+      "recovered_bytecode_sha256": "537049ac1000d50e07a27fb1e8ca029d0deead7709066aaef288344ea4eb216a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/exists_or_in_progress@const29",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "1e96bbea79e8c6cfb0b615185094aba19fc123208bc1f0d1cbeee7498d1a78e8",
+      "recovered_bytecode_sha256": "1e96bbea79e8c6cfb0b615185094aba19fc123208bc1f0d1cbeee7498d1a78e8",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/check_space@const30",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ce6082731b4ffdfc0fae7c2c08a4e7de6792c8f1cae9f9ec6996222fb0a0eb20",
+      "recovered_bytecode_sha256": "ce6082731b4ffdfc0fae7c2c08a4e7de6792c8f1cae9f9ec6996222fb0a0eb20",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/drive_of@const31",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f18b6d0c80316ebf13789b16db5f9f493a108c228077dd1c4130483cdd33a924",
+      "recovered_bytecode_sha256": "f18b6d0c80316ebf13789b16db5f9f493a108c228077dd1c4130483cdd33a924",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/SourceKeptError@const32",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "2855ec774ec76cb233d003178ec4dfcb87617d417274b399831e0dd8f07f7a10",
+      "recovered_bytecode_sha256": "2855ec774ec76cb233d003178ec4dfcb87617d417274b399831e0dd8f07f7a10",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/copy_file_atomic@const34",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "c8e998d80452fe3fe7ffcd47e620203bbf02078003a33de37358496afd9e10b5",
+      "recovered_bytecode_sha256": "c8e998d80452fe3fe7ffcd47e620203bbf02078003a33de37358496afd9e10b5",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/move_file@const35",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "bc4990f768cb4fd28baabd3ce2281027ac4daf9a33817f25a9d2ea98ffc6927a",
+      "recovered_bytecode_sha256": "bc4990f768cb4fd28baabd3ce2281027ac4daf9a33817f25a9d2ea98ffc6927a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/describe_error@const36",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "60ea0dce1bae33250e59d7c7634fadc43d070fbef13e0e5c7a5e0a7e74852fcc",
+      "recovered_bytecode_sha256": "60ea0dce1bae33250e59d7c7634fadc43d070fbef13e0e5c7a5e0a7e74852fcc",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/journal_path@const37",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "0d30d03c6fbbdc3ca049247f2145262dc0021c43dc1a82bd88745f4421613e79",
+      "recovered_bytecode_sha256": "0d30d03c6fbbdc3ca049247f2145262dc0021c43dc1a82bd88745f4421613e79",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/write_journal@const38",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "c4555e955ab4910335dd2c8210d25f30db460ab9841437cfe2f4e93c29557a4f",
+      "recovered_bytecode_sha256": "c4555e955ab4910335dd2c8210d25f30db460ab9841437cfe2f4e93c29557a4f",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/recover_unfinished@const39",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "366a781fd5a509c67e466c2b188df1802a56c5738688e70cb06904d4582924f3",
+      "recovered_bytecode_sha256": "366a781fd5a509c67e466c2b188df1802a56c5738688e70cb06904d4582924f3",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/finish_interrupted@const40",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ca6a3fd2a5fa80c81a627ca7e531538ab1e4ed1ba980b33efa8d98593c99bbfd",
+      "recovered_bytecode_sha256": "ca6a3fd2a5fa80c81a627ca7e531538ab1e4ed1ba980b33efa8d98593c99bbfd",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py/run_collect@const41",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b26ecf94091e7753446da573aa5018756d2b86cd9541ac6c690213000f4d466e",
+      "recovered_bytecode_sha256": "b26ecf94091e7753446da573aa5018756d2b86cd9541ac6c690213000f4d466e",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/type_selector_script.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "aeb752eeb877521610299b61061e489350d2241c6ba79d25cdb7d660aea63f3a",
+      "recovered_bytecode_sha256": "aeb752eeb877521610299b61061e489350d2241c6ba79d25cdb7d660aea63f3a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/ScanThread@const6/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "532fd521ddf0eb3c2487e55427fe5388df0b2d0a2bb3c79f9c775cc7ef037944",
+      "recovered_bytecode_sha256": "532fd521ddf0eb3c2487e55427fe5388df0b2d0a2bb3c79f9c775cc7ef037944",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/ScanThread@const6/run@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9484ae513e5c13dd4a1aaf8836533a670af3ce3e26acb6d46bb4358576bf7b26",
+      "recovered_bytecode_sha256": "9484ae513e5c13dd4a1aaf8836533a670af3ce3e26acb6d46bb4358576bf7b26",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/ScanThread@const6/report@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "deeb1eaf378b7ac8fa2305620c5d4d90d6a98aa0af29444b490393f7ca3a250f",
+      "recovered_bytecode_sha256": "deeb1eaf378b7ac8fa2305620c5d4d90d6a98aa0af29444b490393f7ca3a250f",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/ScanThread@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "e3e6d997e207805719d6416aa1065ffbf153ae4772c3ac39a80a05ee28489cb0",
+      "recovered_bytecode_sha256": "e3e6d997e207805719d6416aa1065ffbf153ae4772c3ac39a80a05ee28489cb0",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/CollectThread@const8/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9e956176e8bd6299a35629e5077cd16544903ce9117ca9b641de299797204556",
+      "recovered_bytecode_sha256": "9e956176e8bd6299a35629e5077cd16544903ce9117ca9b641de299797204556",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/CollectThread@const8/run@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "fdf812d96d664c62d7fa5725a8e6cc304a2ff0cc3dc50c1c03f9091479d3ded7",
+      "recovered_bytecode_sha256": "fdf812d96d664c62d7fa5725a8e6cc304a2ff0cc3dc50c1c03f9091479d3ded7",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/CollectThread@const8/report@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f746e2fcbba7af3222334b2b1ac50dea1b5355dad4393a4ffc2986d8e5ae834e",
+      "recovered_bytecode_sha256": "f746e2fcbba7af3222334b2b1ac50dea1b5355dad4393a4ffc2986d8e5ae834e",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py/CollectThread@const8",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "5805981617f05c1051143ab2438199b72070c9099b9eb6c8cf88c5276c4865c1",
+      "recovered_bytecode_sha256": "5805981617f05c1051143ab2438199b72070c9099b9eb6c8cf88c5276c4865c1",
+      "exception_table_equal": true
+    },
+    {
+      "code": "collector/workers.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f543bc83244e676357c14614f283b3a4aa19c1afe10a64361ed513b78e56e6f3",
+      "recovered_bytecode_sha256": "f543bc83244e676357c14614f283b3a4aa19c1afe10a64361ed513b78e56e6f3",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/__init__.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6d3ee5f066757edff36dc5248fab8b58c7801aa99c231414b9650dbf46373d0a",
+      "recovered_bytecode_sha256": "6d3ee5f066757edff36dc5248fab8b58c7801aa99c231414b9650dbf46373d0a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/file_actions.py/open_file@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "48a5faa24b5a1a85d8110c6b58fa57ac46201a10247406096d1c6c16d6f68b4a",
+      "recovered_bytecode_sha256": "48a5faa24b5a1a85d8110c6b58fa57ac46201a10247406096d1c6c16d6f68b4a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/file_actions.py/open_folder@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6261671abbca866f55f5d3722849856f7f409aca053ac4c3c38f5bd353eb3fd1",
+      "recovered_bytecode_sha256": "6261671abbca866f55f5d3722849856f7f409aca053ac4c3c38f5bd353eb3fd1",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/file_actions.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "666573786454e1bb39cb76392f4fd7bb6254e12d9b01136cb5529e019042761f",
+      "recovered_bytecode_sha256": "666573786454e1bb39cb76392f4fd7bb6254e12d9b01136cb5529e019042761f",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/settings.py/load_settings@const8",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "5bdb455ec4077c08cb2c7551d3e45e455b9650c38523432ce6e5d8945db43959",
+      "recovered_bytecode_sha256": "5bdb455ec4077c08cb2c7551d3e45e455b9650c38523432ce6e5d8945db43959",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/settings.py/write_settings@const9",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "90ab3ed894e1e2c3278440305403ee18ad184e9dae8cd0b670c651fe4e6db7ec",
+      "recovered_bytecode_sha256": "90ab3ed894e1e2c3278440305403ee18ad184e9dae8cd0b670c651fe4e6db7ec",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/settings.py/get_save_dir@const10",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a56723c643d44399d63423479c35b5d864540111460496229123a943152f927e",
+      "recovered_bytecode_sha256": "a56723c643d44399d63423479c35b5d864540111460496229123a943152f927e",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/settings.py/set_save_dir@const11",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b3eff34b5b7a81d5335aed1df00d19eb5a93b83b623060142f17355cf0218471",
+      "recovered_bytecode_sha256": "b3eff34b5b7a81d5335aed1df00d19eb5a93b83b623060142f17355cf0218471",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/settings.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4191f42b1862b648fb8dd19c8e0a0c27a98a9afe95086037dc9b0b9010177eeb",
+      "recovered_bytecode_sha256": "4191f42b1862b648fb8dd19c8e0a0c27a98a9afe95086037dc9b0b9010177eeb",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/make_label@const22",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "78f179a6d670627fa38de5d1d7fcf1e08431913b2e5e2c6e1e8392d1fc1ce0a1",
+      "recovered_bytecode_sha256": "78f179a6d670627fa38de5d1d7fcf1e08431913b2e5e2c6e1e8392d1fc1ce0a1",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/make_button@const23",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "3ad4f41498420fcb5c7b2d4271cd92e75316941054efae51adc0f6aa4553ec5b",
+      "recovered_bytecode_sha256": "3ad4f41498420fcb5c7b2d4271cd92e75316941054efae51adc0f6aa4553ec5b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/make_chip@const24",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "801bee05040fe3a12e32b0231da3e4e21c5fb468a57bf144a9b11dc3948e5ffb",
+      "recovered_bytecode_sha256": "801bee05040fe3a12e32b0231da3e4e21c5fb468a57bf144a9b11dc3948e5ffb",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/make_badge@const25",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a024eb31888a12b8ecb49a2810604fbecbc6549b21cc1eb023f19b2555f316fd",
+      "recovered_bytecode_sha256": "a024eb31888a12b8ecb49a2810604fbecbc6549b21cc1eb023f19b2555f316fd",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/make_type_icon@const26",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6c4c4a20eb9dbea10afd82e2e5db132ea139735297223be9df2832559eeae05a",
+      "recovered_bytecode_sha256": "6c4c4a20eb9dbea10afd82e2e5db132ea139735297223be9df2832559eeae05a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/set_type_icon@const27",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "e3df4a5e7627f85dbfd9ed5ac2b075eb1f87f116091901902ce8bc2d1ae8fc80",
+      "recovered_bytecode_sha256": "e3df4a5e7627f85dbfd9ed5ac2b075eb1f87f116091901902ce8bc2d1ae8fc80",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/make_dot@const28",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "3426a3bbf3714846789ba131cb9d6b4c7f4c0053e95efed22e1e0b9794c0e997",
+      "recovered_bytecode_sha256": "3426a3bbf3714846789ba131cb9d6b4c7f4c0053e95efed22e1e0b9794c0e997",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/make_separator@const29",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "3dd43f8a757d1288c5658488b80b1e8cb5dd346ff03560ed4d978f7ee4f84d67",
+      "recovered_bytecode_sha256": "3dd43f8a757d1288c5658488b80b1e8cb5dd346ff03560ed4d978f7ee4f84d67",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/transparent_widget@const30",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6d74628d3fe8871f1029aaadd8f362da8286ef4808569954da3ea92485d1476d",
+      "recovered_bytecode_sha256": "6d74628d3fe8871f1029aaadd8f362da8286ef4808569954da3ea92485d1476d",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py/format_size@const31",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "7bae50f71980947e9679af82ce6623227dbf39affa57722750b362e619e50f4c",
+      "recovered_bytecode_sha256": "7bae50f71980947e9679af82ce6623227dbf39affa57722750b362e619e50f4c",
+      "exception_table_equal": true
+    },
+    {
+      "code": "common/widgets.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a7f904fc85b2d79257df7eda4041f1a792eb6b507378e0c173133f14f703a99c",
+      "recovered_bytecode_sha256": "a7f904fc85b2d79257df7eda4041f1a792eb6b507378e0c173133f14f703a99c",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b994cd35be509b43b07704eb1a2ead4cd22fcdb09bde63cfd69c2cc088e70596",
+      "recovered_bytecode_sha256": "b994cd35be509b43b07704eb1a2ead4cd22fcdb09bde63cfd69c2cc088e70596",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/build_sidebar@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a9ff934b6a1cc32b5335663c612f6db2435196da30d59d124623cd946ef09579",
+      "recovered_bytecode_sha256": "a9ff934b6a1cc32b5335663c612f6db2435196da30d59d124623cd946ef09579",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/build_main_area@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f102885634eabe1a6d27e81e1d9d2bb20e58be32e52cdff0f2f4ec3df6f1adcd",
+      "recovered_bytecode_sha256": "f102885634eabe1a6d27e81e1d9d2bb20e58be32e52cdff0f2f4ec3df6f1adcd",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/build_header@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9d71f15627828989fc8c5f1c7b9245f4db2b1b5c589c77551b6cb27df3258f59",
+      "recovered_bytecode_sha256": "9d71f15627828989fc8c5f1c7b9245f4db2b1b5c589c77551b6cb27df3258f59",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/open_collect_dialog@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "e379b9244f88dfc935862ad2726c1e4a3d98b67e5d2ad243339466ca2afbd373",
+      "recovered_bytecode_sha256": "e379b9244f88dfc935862ad2726c1e4a3d98b67e5d2ad243339466ca2afbd373",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/build_tag_bar@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "0764d4f5a8cd20831ad55130716a2802cdcf8e628aabaa63434e0b5b13b87bb6",
+      "recovered_bytecode_sha256": "0764d4f5a8cd20831ad55130716a2802cdcf8e628aabaa63434e0b5b13b87bb6",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/update_selected_count@const8",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "7aa7ff3fc0bcce7e143c0d0b24755e5f98084d375a08903fb8758d0fcdf0cf0b",
+      "recovered_bytecode_sha256": "7aa7ff3fc0bcce7e143c0d0b24755e5f98084d375a08903fb8758d0fcdf0cf0b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/run_search@const9",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "90f8defd1e9eef1d90a2f0a40b12ccfeec2c144c9fe3a3de0721f396446a1ba7",
+      "recovered_bytecode_sha256": "90f8defd1e9eef1d90a2f0a40b12ccfeec2c144c9fe3a3de0721f396446a1ba7",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14/build_status_bar@const10",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "8a2a65fab029e56ce7dbae3a25ee8f6a69ffa8f3a48adccf8fb42322ea78b5cf",
+      "recovered_bytecode_sha256": "8a2a65fab029e56ce7dbae3a25ee8f6a69ffa8f3a48adccf8fb42322ea78b5cf",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/MainWindow@const14",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "019f0623bfe685d5fa1bafc72be6baa4a01a1f557ee9c870319313728f90a379",
+      "recovered_bytecode_sha256": "019f0623bfe685d5fa1bafc72be6baa4a01a1f557ee9c870319313728f90a379",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py/main@const16",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "e0162fd913fb7f09720e70acc185017fa4bac3da6de247d25b4e9e8454553b0a",
+      "recovered_bytecode_sha256": "e0162fd913fb7f09720e70acc185017fa4bac3da6de247d25b4e9e8454553b0a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "main.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "c968d9fc1b41385bbcb36feb979fdd3400fdb431ad4d19d8b4840674293c6746",
+      "recovered_bytecode_sha256": "c968d9fc1b41385bbcb36feb979fdd3400fdb431ad4d19d8b4840674293c6746",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/__init__.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "6d3ee5f066757edff36dc5248fab8b58c7801aa99c231414b9650dbf46373d0a",
+      "recovered_bytecode_sha256": "6d3ee5f066757edff36dc5248fab8b58c7801aa99c231414b9650dbf46373d0a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/SearchHit@const21",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "64a2a20b49da3a3afdf220267af681f77add74a88f804362a5b4de51473ccea1",
+      "recovered_bytecode_sha256": "64a2a20b49da3a3afdf220267af681f77add74a88f804362a5b4de51473ccea1",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/normalize@const23",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4acd91ff3c6247912cffdf0bec8ab552f5f7e339ac163b180d6403f442d0fb69",
+      "recovered_bytecode_sha256": "4acd91ff3c6247912cffdf0bec8ab552f5f7e339ac163b180d6403f442d0fb69",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/parse_keywords@const24",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "65f07fda56aac94e09948f6a51069e20291f3b22ae9259860363fcb4f690cc45",
+      "recovered_bytecode_sha256": "65f07fda56aac94e09948f6a51069e20291f3b22ae9259860363fcb4f690cc45",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/modified_since@const25",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "57e8c5a73114867257fa1df391ab437865dbef193e4fddded349490f998e035c",
+      "recovered_bytecode_sha256": "57e8c5a73114867257fa1df391ab437865dbef193e4fddded349490f998e035c",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/search_by_name@const26",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a2f20b80f8d3cdfd9e596622bfca464c28a734b225965d7fd219a743a372ee5a",
+      "recovered_bytecode_sha256": "a2f20b80f8d3cdfd9e596622bfca464c28a734b225965d7fd219a743a372ee5a",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/is_work_file@const27",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "2b701a65b96f8d3405d149d6709510fefdbaf15c24d297b5c160bbaaccb93c9f",
+      "recovered_bytecode_sha256": "2b701a65b96f8d3405d149d6709510fefdbaf15c24d297b5c160bbaaccb93c9f",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/matches_name@const28",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "97c8572908ea2261aeb794b4e4ddc95b345818abadae5788b7211c90b6759efc",
+      "recovered_bytecode_sha256": "97c8572908ea2261aeb794b4e4ddc95b345818abadae5788b7211c90b6759efc",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/sort_hits@const29/<lambda>@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4a2918454966be2c1b2cbd3890ec30ed8d68a3e2802919c00de7411a960fcd7b",
+      "recovered_bytecode_sha256": "4a2918454966be2c1b2cbd3890ec30ed8d68a3e2802919c00de7411a960fcd7b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/sort_hits@const29/<lambda>@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "recovered_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/sort_hits@const29/<lambda>@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4a2918454966be2c1b2cbd3890ec30ed8d68a3e2802919c00de7411a960fcd7b",
+      "recovered_bytecode_sha256": "4a2918454966be2c1b2cbd3890ec30ed8d68a3e2802919c00de7411a960fcd7b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/sort_hits@const29/<lambda>@const10",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4a2918454966be2c1b2cbd3890ec30ed8d68a3e2802919c00de7411a960fcd7b",
+      "recovered_bytecode_sha256": "4a2918454966be2c1b2cbd3890ec30ed8d68a3e2802919c00de7411a960fcd7b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py/sort_hits@const29",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b8b4ef7cbd42ea04dd73d6890f63384ada4355b5b4e7390b23b140ad771d1119",
+      "recovered_bytecode_sha256": "b8b4ef7cbd42ea04dd73d6890f63384ada4355b5b4e7390b23b140ad771d1119",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/filename_search.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "753282b1d612b7a3f5b02d1c7a179925c390cbb6c58b1fda5130f73a39e0eea2",
+      "recovered_bytecode_sha256": "753282b1d612b7a3f5b02d1c7a179925c390cbb6c58b1fda5130f73a39e0eea2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/preview_panel.py/PreviewPanel@const9/__init__@const2/<lambda>@const20",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "d53a9d1cac5ed2f4ccc6395f26c6ee8a507ffcf48ad74bae263a23ab4eefc01b",
+      "recovered_bytecode_sha256": "d53a9d1cac5ed2f4ccc6395f26c6ee8a507ffcf48ad74bae263a23ab4eefc01b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/preview_panel.py/PreviewPanel@const9/__init__@const2/<lambda>@const22",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "d53a9d1cac5ed2f4ccc6395f26c6ee8a507ffcf48ad74bae263a23ab4eefc01b",
+      "recovered_bytecode_sha256": "d53a9d1cac5ed2f4ccc6395f26c6ee8a507ffcf48ad74bae263a23ab4eefc01b",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/preview_panel.py/PreviewPanel@const9/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "8e63ed885bb7824a7197b1179913287e48d351ec317f13e2e54beb80476b33e1",
+      "recovered_bytecode_sha256": "8e63ed885bb7824a7197b1179913287e48d351ec317f13e2e54beb80476b33e1",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/preview_panel.py/PreviewPanel@const9/show_hit@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "c394a26eb98609e1e8f8952aa7b96fdd6d48271e91ad3b2a82ec412f4a8dd6b3",
+      "recovered_bytecode_sha256": "c394a26eb98609e1e8f8952aa7b96fdd6d48271e91ad3b2a82ec412f4a8dd6b3",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/preview_panel.py/PreviewPanel@const9/open_and_report@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4b0597721d93ee07d86b589f4ce47f7452242ffdc24fe7bf5800796871b23fea",
+      "recovered_bytecode_sha256": "4b0597721d93ee07d86b589f4ce47f7452242ffdc24fe7bf5800796871b23fea",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/preview_panel.py/PreviewPanel@const9",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "8d8f93e55e82138cec8cabe5b12df782286f1af45fa8703108ee2c3eac1e9174",
+      "recovered_bytecode_sha256": "8d8f93e55e82138cec8cabe5b12df782286f1af45fa8703108ee2c3eac1e9174",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/preview_panel.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "bad01a45dc33db9f079bf3a4f8f907be3176c40c160924771f79d9ebab1d6567",
+      "recovered_bytecode_sha256": "bad01a45dc33db9f079bf3a4f8f907be3176c40c160924771f79d9ebab1d6567",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultPanel@const11/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "1974dcd859ef6f7411fac41c27f23ab36120a14a95f7b02dfb64dce9799503f9",
+      "recovered_bytecode_sha256": "1974dcd859ef6f7411fac41c27f23ab36120a14a95f7b02dfb64dce9799503f9",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultPanel@const11/show_hits@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "de411a33331828b1273755b7f02b524daf83769275e9471cb198cca950d478f0",
+      "recovered_bytecode_sha256": "de411a33331828b1273755b7f02b524daf83769275e9471cb198cca950d478f0",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultPanel@const11/refresh@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "30967d6bdf73c369cb3f94097a7d77640e6b4ddb22c6ab265ac850dda4ddb9c2",
+      "recovered_bytecode_sha256": "30967d6bdf73c369cb3f94097a7d77640e6b4ddb22c6ab265ac850dda4ddb9c2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultPanel@const11",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "8d8f93e55e82138cec8cabe5b12df782286f1af45fa8703108ee2c3eac1e9174",
+      "recovered_bytecode_sha256": "8d8f93e55e82138cec8cabe5b12df782286f1af45fa8703108ee2c3eac1e9174",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "4d8345c8873f2911ca2b4f2f0cf1db4112bc6e9a590df861d93f0cf1aa5a2f08",
+      "recovered_bytecode_sha256": "4d8345c8873f2911ca2b4f2f0cf1db4112bc6e9a590df861d93f0cf1aa5a2f08",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/show_hits@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "2fd205b12e8dde37bce95684ab8a0289df18ba3c4f60ba2a532a77b2571d11a5",
+      "recovered_bytecode_sha256": "2fd205b12e8dde37bce95684ab8a0289df18ba3c4f60ba2a532a77b2571d11a5",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/fill_row@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f6134490bbbb4fe61e93774aeb07af417fbe64e18042bf1fb952e850cac294a0",
+      "recovered_bytecode_sha256": "f6134490bbbb4fe61e93774aeb07af417fbe64e18042bf1fb952e850cac294a0",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/checked_hits@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b6b26c604f3406301dec34d091e976f98198aeaa57d28a4884062e9e6421b861",
+      "recovered_bytecode_sha256": "b6b26c604f3406301dec34d091e976f98198aeaa57d28a4884062e9e6421b861",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/emit_current_hit@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "49bcdd52a978b54f2ead85ea7e9855d0cd2278d3a7bd139b95d045620202c46c",
+      "recovered_bytecode_sha256": "49bcdd52a978b54f2ead85ea7e9855d0cd2278d3a7bd139b95d045620202c46c",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/on_item_changed@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a0b982eb7279358aeacd916e71a79206bf748019d80fb52ce62c8278d157dcca",
+      "recovered_bytecode_sha256": "a0b982eb7279358aeacd916e71a79206bf748019d80fb52ce62c8278d157dcca",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/on_double_click@const8",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "a4a07a40c7a7739279dc27a54601940e46a0f9057dea5b02e617525531ebf33c",
+      "recovered_bytecode_sha256": "a4a07a40c7a7739279dc27a54601940e46a0f9057dea5b02e617525531ebf33c",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/show_menu@const9/<lambda>@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "87486551acbb9a37070180b3e712462b2f3eef5f45ee10489eaf84646c62c18d",
+      "recovered_bytecode_sha256": "87486551acbb9a37070180b3e712462b2f3eef5f45ee10489eaf84646c62c18d",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/show_menu@const9/<lambda>@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "87486551acbb9a37070180b3e712462b2f3eef5f45ee10489eaf84646c62c18d",
+      "recovered_bytecode_sha256": "87486551acbb9a37070180b3e712462b2f3eef5f45ee10489eaf84646c62c18d",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/show_menu@const9",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "660f6f0380aa9a03cb3ac33220e85d43117fcf42605ec2f1d7314df0b02c5e42",
+      "recovered_bytecode_sha256": "660f6f0380aa9a03cb3ac33220e85d43117fcf42605ec2f1d7314df0b02c5e42",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13/open_and_report@const10",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "7c0b7fd086f2a3ad475c5b70f984e8fadde6e04f474c1d212ea7820a4fb57e27",
+      "recovered_bytecode_sha256": "7c0b7fd086f2a3ad475c5b70f984e8fadde6e04f474c1d212ea7820a4fb57e27",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/ResultTable@const13",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "5dae66766cbfb03cade39429f4e3968c6084d1acdcbe310eb4540d96c9f014b1",
+      "recovered_bytecode_sha256": "5dae66766cbfb03cade39429f4e3968c6084d1acdcbe310eb4540d96c9f014b1",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/build_name_cell@const15",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "440f28903d22ff4f54bb7e1c70c0513a0745afbc3ea565d3635fd0cb47ff2b57",
+      "recovered_bytecode_sha256": "440f28903d22ff4f54bb7e1c70c0513a0745afbc3ea565d3635fd0cb47ff2b57",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py/highlight@const16",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "b0432a6528a0b520187fac585805c9c1661d98d4478a7926a88c0bc9797ae662",
+      "recovered_bytecode_sha256": "b0432a6528a0b520187fac585805c9c1661d98d4478a7926a88c0bc9797ae662",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/result_table.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "7a4a1f3f6fddedc93cbb8c3ba48a3420837916b35543d136ac2287db6dc4793d",
+      "recovered_bytecode_sha256": "7a4a1f3f6fddedc93cbb8c3ba48a3420837916b35543d136ac2287db6dc4793d",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py/SearchBar@const6/__init__@const2",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "fceb3266b13151844ff7e98ba4f582d3c484a0ffa6ecdc891f81b9820f725d16",
+      "recovered_bytecode_sha256": "fceb3266b13151844ff7e98ba4f582d3c484a0ffa6ecdc891f81b9820f725d16",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py/SearchBar@const6/keyword_text@const3",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "recovered_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py/SearchBar@const6/name_search_enabled@const4",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "recovered_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py/SearchBar@const6/extensions@const5",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "99a9a0eacd0e521fad4e12946e24a1a7cd515463823b51184932e576b0df09f2",
+      "recovered_bytecode_sha256": "99a9a0eacd0e521fad4e12946e24a1a7cd515463823b51184932e576b0df09f2",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py/SearchBar@const6/date_range@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "recovered_bytecode_sha256": "9b8bc27b377c35c736dfdaad60fce276c2b946c5c855cb77c11c1b2ac9786ed8",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py/SearchBar@const6/reset_filters@const7",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "648842ebf480f99a5b27e23c1ecb4442bd17a6d8a9591f72d1648c04552a72a4",
+      "recovered_bytecode_sha256": "648842ebf480f99a5b27e23c1ecb4442bd17a6d8a9591f72d1648c04552a72a4",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py/SearchBar@const6",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "f70b5aa9db544be47dbd0387cc49d4365f0e3f6f576b16b74a0364c968a4ade6",
+      "recovered_bytecode_sha256": "f70b5aa9db544be47dbd0387cc49d4365f0e3f6f576b16b74a0364c968a4ade6",
+      "exception_table_equal": true
+    },
+    {
+      "code": "searcher/search_bar.py",
+      "passed": true,
+      "differences": [],
+      "original_bytecode_sha256": "ec8594afe6670d5c351edcf4439f5837e23deedae690cae119849c82a17f592a",
+      "recovered_bytecode_sha256": "ec8594afe6670d5c351edcf4439f5837e23deedae690cae119849c82a17f592a",
+      "exception_table_equal": true
+    }
+  ]
+}

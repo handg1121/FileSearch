@@ -1,0 +1,69 @@
+690 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.9
+691 INFO: Python: 3.13.0
+755 INFO: Platform: Windows-11-10.0.26300-SP0
+756 INFO: Python environment: C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\python313
+765 INFO: Module search paths (PYTHONPATH):
+['C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\python313.zip',
+ 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313',
+ 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages',
+ 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\outputs\\FileSearch_project']
+1336 INFO: checking Analysis
+1337 INFO: Building Analysis because Analysis-00.toc is non existent
+1337 INFO: Looking for Python shared library...
+1337 INFO: Using Python shared library: C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\python313\python313.dll
+1337 INFO: Running Analysis Analysis-00.toc
+1337 INFO: Target bytecode optimization level: 0
+1337 INFO: Initializing module dependency graph...
+1340 INFO: Initializing module graph hook caches...
+1363 INFO: Analyzing modules for base_library.zip ...
+3578 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+4304 INFO: Processing standard module hook 'hook-math.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+5583 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+6794 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+7273 INFO: Caching module dependency graph...
+7312 INFO: Analyzing C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\outputs\FileSearch_project\main.py
+7331 INFO: Processing standard module hook 'hook-PySide6.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+7635 INFO: Processing standard module hook 'hook-shiboken6.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+7893 INFO: Processing standard module hook 'hook-PySide6.QtNetwork.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+12710 INFO: Processing standard module hook 'hook-PySide6.QtCore.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+19676 INFO: Processing standard module hook 'hook-PySide6.QtGui.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+40633 INFO: Processing standard module hook 'hook-PySide6.QtWidgets.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+44326 INFO: Processing standard module hook 'hook-_ctypes.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+44448 INFO: Processing module hooks (post-graph stage)...
+44455 INFO: Performing binary vs. data reclassification (125 entries)
+44484 INFO: Looking for ctypes DLLs
+44492 INFO: Analyzing run-time hooks ...
+44493 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+44496 INFO: Including run-time hook 'pyi_rth_pyside6.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+44499 INFO: Processing pre-find-module-path hook 'hook-_pyi_rth_utils.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+44501 INFO: Processing standard module hook 'hook-_pyi_rth_utils.py' from 'C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PyInstaller\\hooks'
+44509 INFO: Creating base_library.zip...
+44529 INFO: Looking for dynamic libraries
+44689 INFO: Extra DLL search directories (AddDllDirectory): ['C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\shiboken6']
+44689 INFO: Extra DLL search directories (PATH): ['C:\\Users\\user\\Documents\\Codex\\2026-10-24\\new-chat-2\\work\\python313\\Lib\\site-packages\\PySide6']
+45914 INFO: Warnings written to C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\build_cache\FileSearch\warn-FileSearch.txt
+45932 INFO: Graph cross-reference written to C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\build_cache\FileSearch\xref-FileSearch.html
+45954 INFO: checking PYZ
+45954 INFO: Building PYZ because PYZ-00.toc is non existent
+45954 INFO: Building PYZ (ZlibArchive) C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\build_cache\FileSearch\PYZ-00.pyz
+46083 INFO: Building PYZ (ZlibArchive) C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\build_cache\FileSearch\PYZ-00.pyz completed successfully.
+46090 INFO: checking PKG
+46090 INFO: Building PKG because PKG-00.toc is non existent
+46090 INFO: Building PKG (CArchive) FileSearch.pkg
+46107 INFO: Building PKG (CArchive) FileSearch.pkg completed successfully.
+46108 INFO: Bootloader C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\python313\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+46108 INFO: checking EXE
+46108 INFO: Building EXE because EXE-00.toc is non existent
+46108 INFO: Building EXE from EXE-00.toc
+46108 INFO: Copying bootloader EXE to C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\build_cache\FileSearch\FileSearch.exe
+46112 INFO: Copying icon to EXE
+46114 INFO: Copying 0 resources to EXE
+46114 INFO: Embedding manifest in EXE
+46116 INFO: Appending PKG archive to EXE
+46118 INFO: Fixing EXE headers
+46188 INFO: Building EXE from EXE-00.toc completed successfully.
+46192 INFO: checking COLLECT
+46192 INFO: Building COLLECT because COLLECT-00.toc is non existent
+46193 INFO: Building COLLECT COLLECT-00.toc
+46460 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+46464 INFO: Build complete! The results are available in: C:\Users\user\Documents\Codex\2026-10-24\new-chat-2\work\build_dist

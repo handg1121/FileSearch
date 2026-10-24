@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "filesearch-recovered"
+version = "0.1.0"
+description = "Recovered FileSearch desktop project"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = ["PySide6==6.12.0"]
+classifiers = [
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: Microsoft :: Windows",
+]
+
+[project.gui-scripts]
+filesearch = "main:main"
+
+[tool.setuptools]
+py-modules = ["main"]
+
+[tool.setuptools.packages.find]
+include = ["collector*", "common*", "searcher*"]

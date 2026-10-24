@@ -1,0 +1,29 @@
+{
+  "passed": 23,
+  "checks": [
+    "capture:main_window.png",
+    "search_two_hits",
+    "preview_selection",
+    "checked_count",
+    "sort_resets_selection",
+    "capture:search_results.png",
+    "escaped_highlight",
+    "saved_target",
+    "no_types_disables_find",
+    "one_type_enables_find",
+    "selected_source",
+    "selected_target",
+    "capture:collect_dialog.png",
+    "scan_thread",
+    "capture:summary_dialog.png",
+    "collect_thread",
+    "copied_content:계약_검토.txt",
+    "copied_content:계약서_샘플.txt",
+    "copied_content:메모.txt",
+    "capture:result_dialog.png",
+    "progress_cancellation",
+    "no_timeout",
+    "no_qt_slot_errors"
+  ],
+  "qt_slot_errors": []
+}
