@@ -11,6 +11,8 @@ from PySide6.QtWidgets import (
 from common.file_actions import open_file, open_folder
 from common.widgets import format_size, make_label, make_type_icon, transparent_widget
 from searcher.filename_search import SORT_ORDERS, sort_hits
+from tagger.badges import BADGES_ROLE, TagBadgeDelegate
+from tagger.colors import DEFAULT_TAG_COLOR
 
 MAX_ROWS = 500
 COL_CHECK, COL_NAME, COL_TAGS, COL_MODIFIED, COL_SIZE = range(5)
@@ -21,11 +23,15 @@ class ResultPanel(QWidget):
         super().__init__(parent)
         self.hits = []
         self.keywords = []
+        self.tag_filter = None
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(8)
         title_row = QHBoxLayout()
-        title_row.addWidget(make_label("검색 결과", "sectionTitle"))
+        self.title_label = make_label("검색 결과", "sectionTitle")
+        self.title_label.setTextFormat(Qt.PlainText)
+        self.title_label.setMaximumWidth(360)
+        title_row.addWidget(self.title_label)
         self.count_label = make_label("", "muted")
         title_row.addWidget(self.count_label)
         title_row.addStretch()
@@ -39,6 +45,12 @@ class ResultPanel(QWidget):
         layout.addWidget(self.table, 1)
         layout.addWidget(make_label("더블클릭으로 파일 열기 · 우클릭으로 폴더 열기", "muted"))
 
+    def set_tag_filter(self, name):
+        self.tag_filter = name
+        title = f"검색 결과 · {name}" if name else "검색 결과"
+        self.title_label.setText(self.title_label.fontMetrics().elidedText(title, Qt.ElideRight, 360))
+        self.title_label.setToolTip(f"태그: {name}\n모든 폴더의 파일이에요. 일반 검색을 하면 태그 보기가 해제돼요." if name else "")
+
     def show_hits(self, hits, keywords):
         self.hits = hits
         self.keywords = keywords
@@ -49,17 +61,20 @@ class ResultPanel(QWidget):
         self.table.show_hits(ordered[:MAX_ROWS], self.keywords)
         text = f"{len(ordered):,}개"
         if len(ordered) > MAX_ROWS:
-            text += f" (처음 {MAX_ROWS}개만 표시, 검색어를 더 넣어 보세요)"
+            text += (f" (처음 {MAX_ROWS}개만 표시)" if self.tag_filter else
+                     f" (처음 {MAX_ROWS}개만 표시, 검색어를 더 넣어 보세요)")
         self.count_label.setText(text)
 
 
 class ResultTable(QTableWidget):
     current_hit_changed = Signal(object)
     checked_count_changed = Signal(int)
+    hits_changed = Signal()
 
     def __init__(self, parent=None):
         super().__init__(0, 5, parent)
         self.hits = []
+        self.tags_by_path = {}
         self.setHorizontalHeaderLabels(["", "파일명", "태그", "수정일", "크기"])
         self.verticalHeader().setVisible(False)
         self.setShowGrid(False)
@@ -72,7 +87,8 @@ class ResultTable(QTableWidget):
         header.setSectionResizeMode(QHeaderView.Fixed)
         header.setSectionResizeMode(COL_NAME, QHeaderView.Stretch)
         self.setColumnWidth(COL_CHECK, 44)
-        self.setColumnWidth(COL_TAGS, 150)
+        self.setColumnWidth(COL_TAGS, 180)
+        self.setItemDelegateForColumn(COL_TAGS, TagBadgeDelegate(self))
         self.setColumnWidth(COL_MODIFIED, 110)
         self.setColumnWidth(COL_SIZE, 90)
         self.itemSelectionChanged.connect(self.emit_current_hit)
@@ -91,6 +107,7 @@ class ResultTable(QTableWidget):
         self.blockSignals(False)
         self.current_hit_changed.emit(None)
         self.checked_count_changed.emit(0)
+        self.hits_changed.emit()
 
     def fill_row(self, row, hit, keywords):
         self.setRowHeight(row, 56)
@@ -104,6 +121,20 @@ class ResultTable(QTableWidget):
         modified = datetime.fromtimestamp(hit.modified).strftime("%Y.%m.%d")
         self.setItem(row, COL_MODIFIED, QTableWidgetItem(modified))
         self.setItem(row, COL_SIZE, QTableWidgetItem(format_size(hit.size)))
+
+    def show_tags(self, tags_by_path, colors=None):
+        """선택·정렬 상태를 바꾸지 않고 태그 열만 갱신해요."""
+        self.tags_by_path = tags_by_path
+        previous = self.blockSignals(True)
+        try:
+            for row, hit in enumerate(self.hits):
+                names = tags_by_path.get(hit.path, ())
+                item = self.item(row, COL_TAGS)
+                item.setText(", ".join(names))
+                item.setData(BADGES_ROLE, [(name, (colors or {}).get(name, DEFAULT_TAG_COLOR)) for name in names])
+                item.setToolTip("\n".join(names))
+        finally:
+            self.blockSignals(previous)
 
     def checked_hits(self):
         checked = []

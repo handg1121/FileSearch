@@ -2,6 +2,8 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QWidget
 
+from common.file_icons import FILE_TYPES, FileTypeIcon
+
 
 TAG_COLORS = {
     "계약서": ("#fde2e1", "#c62828", "#ef4444"),
@@ -9,21 +11,6 @@ TAG_COLORS = {
     "거래처": ("#dbeafe", "#1d4ed8", "#3b82f6"),
     "완료": ("#d9f5e3", "#15803d", "#22c55e"),
     "중요": ("#ede4ff", "#6d28d9", "#a855f7"),
-}
-
-FILE_TYPES = {
-    "hwp": ("한", "#1e88e5"),
-    "hwpx": ("HWPX", "#1e88e5"),
-    "doc": ("W", "#2b579a"),
-    "docx": ("W", "#2b579a"),
-    "xls": ("X", "#217346"),
-    "xlsx": ("X", "#217346"),
-    "ppt": ("P", "#d24726"),
-    "pptx": ("P", "#d24726"),
-    "pdf": ("PDF", "#e53935"),
-    "txt": ("TXT", "#78909c"),
-    "jpg": ("JPG", "#26a69a"),
-    "png": ("PNG", "#8e5bd8"),
 }
 
 STYLE = """
@@ -121,30 +108,13 @@ def make_badge(text):
 
 
 def make_type_icon(file_name, size=34):
-    '파일명("계약서.pdf")이나 확장자("pdf")를 받아 유형 아이콘을 만든다'
-    icon = QLabel()
-    icon.setAlignment(Qt.AlignCenter)
-    icon.setFixedSize(size, int(size * 1.15))
-    set_type_icon(icon, file_name)
-    return icon
+    'Windows 연결 아이콘을 표시하고, 없으면 내장 문서 아이콘을 사용해요.'
+    return FileTypeIcon(file_name, size)
 
 
 def set_type_icon(icon, file_name):
-    '이미 만든 유형 아이콘의 글자와 색을 다른 파일에 맞게 바꾼다'
-    ext = file_name.rsplit(".", 1)[-1].lower()
-    text, color = FILE_TYPES.get(ext, ("?", "#9ca3af"))
-    icon.setText(text)
-    size = icon.width()
-    if len(text) == 1:
-        font_size = size // 3
-    elif len(text) == 3:
-        font_size = max(7, size // 5)
-    else:
-        font_size = max(6, size // 6)
-    icon.setStyleSheet(
-        f"background: {color}; color: white; border-radius: 4px; "
-        f"font-weight: bold; font-size: {font_size}pt;"
-    )
+    '파일이 바뀌면 같은 위젯의 아이콘을 갱신해요.'
+    icon.set_file_name(file_name)
 
 
 def make_dot(color, size=10):

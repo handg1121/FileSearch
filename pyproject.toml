@@ -21,4 +21,4 @@ filesearch = "main:main"
 py-modules = ["main"]
 
 [tool.setuptools.packages.find]
-include = ["collector*", "common*", "searcher*"]
+include = ["collector*", "common*", "searcher*", "tagger*"]

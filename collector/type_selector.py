@@ -20,7 +20,7 @@ class TypeTile(QPushButton):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(8, 16, 8, 10)
         layout.setSpacing(8)
-        icon = make_type_icon(ext, size=40)
+        icon = make_type_icon(f".{ext}", size=40)
         icon.setAttribute(Qt.WA_TransparentForMouseEvents)
         layout.addWidget(icon, 0, Qt.AlignHCenter)
         name = QLabel(f".{ext}")

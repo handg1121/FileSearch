@@ -10,6 +10,8 @@ from common.widgets import (
     format_size, make_button, make_label, make_separator, make_type_icon, set_type_icon,
 )
 
+from tagger.badges import TagBadgeLabel
+
 ZERO_WIDTH_SPACE = "\u200b"
 
 
@@ -63,11 +65,15 @@ class PreviewPanel(QFrame):
         tags_title = make_label("부착된 태그")
         tags_title.setStyleSheet("font-weight: bold;")
         layout.addWidget(tags_title)
-        layout.addWidget(make_label("태그 기능은 준비 중이에요.", "muted"))
+        self.tags_label = TagBadgeLabel()
+        self.tags_label.setTextFormat(Qt.PlainText)
+        self.tags_label.setWordWrap(True)
+        layout.addWidget(self.tags_label)
         self.show_hit(None)
 
     def show_hit(self, hit):
         self.hit = hit
+        self.show_tags(())
         self.body.setPlainText(hit.body_excerpt if hit else "")
         set_type_icon(self.icon, hit.name if hit else "")
         if hit is None:
@@ -81,6 +87,10 @@ class PreviewPanel(QFrame):
             self.info_label.setText(f"{format_size(hit.size)} · 수정 {modified}")
         self.open_button.setEnabled(hit is not None)
         self.folder_button.setEnabled(hit is not None)
+
+    def show_tags(self, names, colors=None):
+        self.tags_label.show_tags(names, colors,
+                                 "부착된 태그가 없어요." if self.hit else "파일을 선택하세요.")
 
     def open_and_report(self, action):
         error = action(self.hit.path)

@@ -7,6 +7,13 @@ set "BUILD_PYTHON=%CD%\.venv\Scripts\python.exe"
 set "PYTHONUTF8=1"
 set "PIP_DISABLE_PIP_VERSION_CHECK=1"
 
+rem Stop before PyInstaller cleans dist if this exact EXE is still running.
+"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -NonInteractive -Command "$buildTarget = [IO.Path]::GetFullPath((Join-Path (Get-Location) 'dist\FileSearch\FileSearch.exe')); if (Get-Process -Name FileSearch -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $buildTarget }) { exit 1 }"
+if errorlevel 1 (
+    echo ERROR: Close dist\FileSearch\FileSearch.exe before rebuilding. Existing files were not changed.
+    goto finish
+)
+
 if exist "%BUILD_PYTHON%" goto check_python
 if exist ".build-python\python.exe" goto local_python
 where py >nul 2>nul
