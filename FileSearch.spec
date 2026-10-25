@@ -3,6 +3,7 @@
 from pathlib import Path
 import os
 import sys
+import runpy
 
 # 다른 프로그램의 PATH에 있는 동명 DLL(예: Poppler의 icuuc.dll)을 섞지 않아요.
 # Qt는 Windows의 ICU API를 사용하므로 빌드 시 DLL 검색 경로도 한정해요.
@@ -15,11 +16,13 @@ if sys.platform == "win32":
     ))
 
 project_dir = Path(SPECPATH)
+verify = runpy.run_path(str(project_dir / "tools/verify_ocr_bundle.py"))["verify_bundle"]
+verify(project_dir / "vendor/tesseract")
 a = Analysis(
     [str(project_dir / "main.py")],
     pathex=[str(project_dir)],
     binaries=[],
-    datas=[],
+    datas=[(str(project_dir / "vendor/tesseract"), "ocr_runtime")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

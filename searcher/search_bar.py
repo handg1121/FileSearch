@@ -33,6 +33,7 @@ class SearchBar(QFrame):
         self.name_check.setChecked(True)
         option_row.addWidget(self.name_check)
         self.content_check = QCheckBox("파일 내용")
+        self.content_check.setToolTip("이미지 글자 인식: PNG·JPG·JPEG·BMP·TIFF·WebP (한국어·영어)\n변경되지 않은 파일은 저장된 본문을 재사용해요.")
         option_row.addWidget(self.content_check)
         self.tag_check = QCheckBox("태그명")
         option_row.addWidget(self.tag_check)
@@ -90,7 +91,7 @@ class SearchBar(QFrame):
         self.keyword_input.setPlaceholderText(placeholder)
         hints = []
         if self.content_search_enabled():
-            hints.append("본문은 띄어쓰기를 포함해 입력한 문구를 찾아요. 지원: HWP·HWPX·TXT.")
+            hints.append("본문은 띄어쓰기를 포함해 입력한 문구를 찾아요. 지원: HWP·HWPX·TXT·이미지 OCR. 처음 읽는 이미지는 시간이 걸릴 수 있어요.")
         if self.tag_search_enabled():
             hints.append("태그명은 입력한 문구가 포함된 태그를 찾아요. 예: 계약 → 계약서.")
         if len(targets) > 1:

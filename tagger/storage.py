@@ -245,3 +245,64 @@ def read_tag_paths(tag_id, db_path=None):
         paths = [item["path"] for item in connection.execute(
             "SELECT path FROM file_tags WHERE tag_id = ? ORDER BY path_key", (tag_id,))]
         return Tag(row["id"], row["name"], len(paths), row["color"]), paths
+
+
+@dataclass(frozen=True)
+class TagEditResult:
+    tag: Tag
+    changed_files: int
+    source_retained: bool
+
+
+def edit_tag(tag_id, new_name, paths, db_path=None, *, expected_name=None):
+    """선택한 파일에서만 태그 이름을 바꿔요. 다른 태그와 파일 데이터는 유지해요.
+
+    전부 선택하고 새 이름이면 기존 태그 ID와 색을 유지해 이름만 바꿔요.
+    일부 선택이면 같은 색의 새 태그로 분리해요. 이미 있는 이름이면 그 태그로
+    연결을 바꾸되 기존 색을 유지해요. 모든 변경은 한 트랜잭션으로 처리해요.
+    """
+    name = normalize_name(new_name)
+    selected = set(_paths(paths))
+    with _connect(db_path) as connection, connection:
+        connection.execute("BEGIN IMMEDIATE")
+        source = connection.execute("SELECT * FROM tags WHERE id = ?", (tag_id,)).fetchone()
+        if source is None:
+            raise ValueError("태그가 삭제됐어요. 창을 닫고 목록을 다시 확인해 주세요.")
+        if expected_name is not None and source["name"] != expected_name:
+            raise ValueError("태그 이름이 바뀌었어요. 창을 닫고 다시 수정해 주세요.")
+        if source["name"] == name:
+            raise ValueError("현재 태그와 다른 이름을 입력해 주세요.")
+        links = {row["path_key"]: row["path"] for row in connection.execute(
+            "SELECT path_key, path FROM file_tags WHERE tag_id = ?", (tag_id,))}
+        if not selected <= links.keys():
+            raise ValueError("선택한 파일의 태그가 바뀌었어요. 창을 닫고 목록을 다시 확인해 주세요.")
+        if links and not selected:
+            raise ValueError("변경할 파일을 하나 이상 선택해 주세요.")
+        all_selected = selected == links.keys()
+        target = connection.execute("SELECT * FROM tags WHERE name_key = ?", (name.casefold(),)).fetchone()
+        if target is not None and target["id"] == tag_id and not all_selected:
+            raise ValueError("대소문자만 바꾸려면 전체 파일을 선택해 주세요. 일부 파일은 다른 태그 이름을 사용해 주세요.")
+        if all_selected and (target is None or target["id"] == tag_id):
+            connection.execute("UPDATE tags SET name = ?, name_key = ? WHERE id = ?", (name, name.casefold(), tag_id))
+            target_id = tag_id
+        else:
+            if target is None:
+                cursor = connection.execute("INSERT INTO tags(name, name_key, color) VALUES (?, ?, ?)",
+                                            (name, name.casefold(), source["color"]))
+                target_id = cursor.lastrowid
+            else:
+                target_id = target["id"]
+            connection.executemany("""
+                INSERT INTO file_tags(path_key, path, tag_id) VALUES (?, ?, ?)
+                ON CONFLICT(path_key, tag_id) DO NOTHING
+            """, ((key, links[key], target_id) for key in sorted(selected)))
+            connection.executemany("DELETE FROM file_tags WHERE path_key = ? AND tag_id = ?",
+                                   ((key, tag_id) for key in sorted(selected)))
+            if all_selected:
+                connection.execute("DELETE FROM tags WHERE id = ?", (tag_id,))
+        row = connection.execute("""
+            SELECT t.id, t.name, t.color, COUNT(f.path_key) AS file_count
+            FROM tags t LEFT JOIN file_tags f ON f.tag_id = t.id WHERE t.id = ? GROUP BY t.id
+        """, (target_id,)).fetchone()
+        retained = connection.execute("SELECT 1 FROM tags WHERE id = ?", (tag_id,)).fetchone() is not None
+        return TagEditResult(Tag(row["id"], row["name"], row["file_count"], row["color"]), len(selected), retained)

@@ -89,6 +89,7 @@ class TagSidebar(QWidget):
     manage_requested = Signal()
     tag_activated = Signal(int)
     color_requested = Signal(int)
+    edit_requested = Signal(int)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -111,7 +112,7 @@ class TagSidebar(QWidget):
         self.tag_list.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tag_list.customContextMenuRequested.connect(self.show_tag_menu)
         self.tag_list.setStyleSheet("QListWidget { border: none; background: transparent; } QListWidget::item { padding: 8px 2px; } QListWidget::item:selected { background: #e8f0fe; border-radius: 5px; }")
-        self.tag_list.setToolTip("더블클릭: 태그 문서 보기 · 우클릭: 색 변경\n숫자는 모든 폴더에 등록된 파일 수예요.")
+        self.tag_list.setToolTip("더블클릭: 태그 문서 보기 · 우클릭: 태그 수정·색 변경\n숫자는 모든 폴더에 등록된 파일 수예요.")
         layout.addWidget(self.tag_list, 1)
         self.manage_button = make_button("태그 관리", "flatButton")
         self.manage_button.clicked.connect(self.manage_requested.emit)
@@ -128,7 +129,7 @@ class TagSidebar(QWidget):
             item.setData(Qt.UserRole, tag.id)
             item.setData(BADGES_ROLE, [(tag.name, tag.color)])
             item.setData(COUNT_ROLE, tag.file_count)
-            item.setToolTip(f"{tag.name} — 등록된 파일 {tag.file_count}개 (모든 폴더)\n더블클릭: 문서 보기 · 우클릭: 색 변경")
+            item.setToolTip(f"{tag.name} — 등록된 파일 {tag.file_count}개 (모든 폴더)\n더블클릭: 문서 보기 · 우클릭: 태그 수정·색 변경")
             self.tag_list.addItem(item)
 
         self.set_active_tag(active_id)
@@ -153,6 +154,8 @@ class TagSidebar(QWidget):
             return
         tag_id = item.data(Qt.UserRole)
         menu = QMenu(self)
+        edit_action = menu.addAction("태그 수정")
+        edit_action.triggered.connect(lambda: self.edit_requested.emit(tag_id))
         action = menu.addAction("색 변경")
         action.triggered.connect(lambda: self.color_requested.emit(tag_id))
         try:

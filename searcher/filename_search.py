@@ -12,6 +12,8 @@ import unicodedata
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
+from ocr import IMAGE_EXTENSIONS
+
 from collector.type_selector_script import JOURNAL_NAME, PART_SUFFIX
 
 
@@ -23,7 +25,7 @@ TYPE_GROUPS = {
     "Word": {"doc", "docx"},
     "PDF": {"pdf"},
     "텍스트": {"txt"},
-    "이미지": {"jpg", "png"},
+    "이미지": set(IMAGE_EXTENSIONS),
 }
 DATE_RANGES = ["전체 기간", "오늘", "최근 7일", "최근 30일", "올해"]
 SORT_ORDERS = ["수정일 최신순", "수정일 오래된순", "이름순", "크기순"]

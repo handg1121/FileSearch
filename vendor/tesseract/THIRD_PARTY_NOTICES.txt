@@ -1,0 +1,31 @@
+FileSearch bundled OCR runtime
+
+Tesseract 5.5.3.20260724 Windows x64 executable and runtime DLLs are copied
+without modification from the UB Mannheim installer published by tesseract-ocr:
+https://github.com/tesseract-ocr/tesseract/releases/tag/5.5.3
+Build sources: https://github.com/UB-Mannheim/tesseract/tree/v5.5.3.20260724
+Only tesseract.exe and its recursive DLL dependencies are bundled.
+Training tools, installer, uninstaller and unrelated DLLs are not included.
+
+Korean and English LSTM models: tesseract-ocr/tessdata_fast (Apache-2.0).
+The pinned commit, download URLs and SHA-256 hashes are in manifest.json.
+
+The Tesseract/model Apache license does not replace the individual licenses
+of their dependencies. Full license texts and copyright notices are in licenses/.
+Dependencies include Leptonica, libarchive, curl, libpng, libjpeg-turbo, libtiff,
+giflib, WebP, OpenJPEG, Lerc, zlib, zstd, bzip2, xz, lz4, libdeflate, brotli,
+libb2, expat, libiconv, libintl, libidn2, libunistring, libpsl, libssh2,
+GNU GCC runtime libraries and mingw-w64 winpthreads.
+GNU runtime libraries use the applicable GCC Runtime Library Exception.
+The dependencies retain their respective BSD/MIT/Apache/GPL/LGPL and other licenses.
+DLLs are dynamically linked and kept as separate, replaceable files.
+
+Dependency license texts were collected from MSYS2 packages and upstream
+projects. The dependency_license_sources and extra_license_sources entries
+record the exact packages used for those texts, with links to their source
+archives and build recipes. Those license-package versions are not assertions
+about the versions of the runtime DLLs in the original installer.
+MSYS2 build recipes: https://github.com/msys2/MINGW-packages
+
+The app sends PNG bytes only to this local subprocess; it never supplies
+URLs to Tesseract, uploads documents, or installs the engine system-wide.

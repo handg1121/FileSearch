@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QDialog, QMessageBox
 from common.settings import get_body_cache_path
 from tagger import storage
 from tagger.dialogs import ManageTagsDialog, RemoveTagsDialog, TagColorDialog, STORAGE_ERRORS
+from tagger.edit_dialog import EditTagDialog
 from tagger.move_dialog import PathMoveDialog
 from tagger.path_tracking import resolve_path_moves
 
@@ -22,6 +23,7 @@ class TagController(QObject):
         window.tag_sidebar.manage_requested.connect(self.manage_tags)
         window.tag_sidebar.tag_activated.connect(self.show_tag_documents)
         window.tag_sidebar.color_requested.connect(self.change_color)
+        window.tag_sidebar.edit_requested.connect(self.edit_tag)
         window.results.table.hits_changed.connect(self.refresh_file_tags)
         window.results.table.current_hit_changed.connect(self.show_preview_tags)
         self.refresh()
@@ -127,6 +129,28 @@ class TagController(QObject):
 
     def show_tag_documents(self, tag_id):
         self.window.run_search(tag_id)
+
+    def edit_tag(self, tag_id):
+        try:
+            tag, paths = storage.read_tag_paths(tag_id, self.db_path)
+            dialog = EditTagDialog(tag, paths, self.db_path, self.window)
+        except STORAGE_ERRORS as error:
+            QMessageBox.warning(self.window, "태그 수정", str(error))
+            return
+        try:
+            if dialog.exec() != QDialog.Accepted:
+                return
+            result = dialog.edit_result
+        finally:
+            dialog.deleteLater()
+        if self.window.active_tag_id == tag_id and not result.source_retained:
+            self.window.active_tag_id = result.tag.id
+        self.refresh()
+        if result.changed_files:
+            text = f"선택한 파일 {result.changed_files}개의 태그를 ‘{result.tag.name}’으로 변경했어요."
+        else:
+            text = f"태그 이름을 ‘{result.tag.name}’으로 변경했어요."
+        self.window.status_label.setText(text)
 
     def change_color(self, tag_id):
         tag = self.tags_by_id.get(tag_id)

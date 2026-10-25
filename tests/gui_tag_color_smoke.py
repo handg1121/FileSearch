@@ -105,8 +105,8 @@ def choose_color(tag_id, color, accept):
         if not isinstance(menu, QMenu):
             QTimer.singleShot(10, use_menu)
             return
-        check("context_menu_color_action", [action.text() for action in menu.actions()] == ["색 변경"])
-        action = menu.actions()[0]
+        check("context_menu_color_action", [action.text() for action in menu.actions()] == ["태그 수정", "색 변경"])
+        action = next(action for action in menu.actions() if action.text() == "색 변경")
         QTimer.singleShot(0, use_picker)
         QTest.mouseClick(menu, Qt.LeftButton, pos=menu.actionGeometry(action).center())
     QTimer.singleShot(0, use_menu)

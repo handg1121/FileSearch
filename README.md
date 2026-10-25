@@ -4,7 +4,7 @@
 
 ## 실행
 
-Python **3.13, Windows 64비트**, **PySide6 6.12.0**, **olefile 0.47**을 사용해요. SQLite는 Python에 포함되어 있어 따로 설치하지 않아요. 원본은 CPython 3.13.0이었어요. Python이 없다면 [공식 배포 페이지](https://www.python.org/downloads/windows/)에서 설치해 주세요.
+Python **3.13, Windows 64비트**, **PySide6 6.12.0**, **olefile 0.47**, **Pillow 13.0.0**을 사용해요. SQLite는 Python에 포함되어 있어 따로 설치하지 않아요. 원본은 CPython 3.13.0이었어요. Python이 없다면 [공식 배포 페이지](https://www.python.org/downloads/windows/)에서 설치해 주세요.
 
 프로젝트 폴더에서 PowerShell을 열고 다음 명령을 실행해요.
 
@@ -52,9 +52,15 @@ tagger/
   colors.py                   기본 빨간색과 표시용 색상
   badges.py                   목록·미리보기의 색상 태그 표시
   search.py                   SQLite 태그명 검색·태그가 연결된 파일 바로 조회
+  edit_dialog.py              파일 선택·전체 선택을 통한 태그 이름 수정 창
   dialogs.py                  태그 제거·관리·색 선택 창
   path_tracking.py            경로·파일명 이동 후보 확인과 승인/거절 반영
   move_dialog.py              기존 경로·새 경로 확인 창
+ocr/
+  __init__.py                 OCR 지원 이미지 확장자
+  reader.py                   내장 Tesseract 실행·이미지 준비·취소·시간 제한
+vendor/tesseract/              OCR 엔진·한국어/영어 모델·의존 DLL·라이선스·해시 목록
+tools/verify_ocr_bundle.py     빌드 전 OCR 파일 검증
 tests/                        복원 후 추가한 회귀·GUI 검사
 tools/verify_recovery.py       원본 바이트코드와 소스 비교
 recovery/                     검증 결과, 원본 비교 자료, 화면 캡처
@@ -92,6 +98,8 @@ GUI 검사는 화면을 띄우지 않는 Qt 모드로 실행하고, 지정한 �
 .\.venv\Scripts\python.exe tests/gui_tag_color_smoke.py --workspace .test-tmp/color-gui --artifacts .test-tmp/color-screenshots
 .\.venv\Scripts\python.exe tests/gui_file_icons_smoke.py --workspace .test-tmp/icons-gui --artifacts .test-tmp/icons-screenshots
 .\.venv\Scripts\python.exe tests/gui_tag_search_smoke.py --workspace .test-tmp/tag-search-gui --artifacts .test-tmp/tag-search-screenshots
+.\.venv\Scripts\python.exe tests/gui_tag_edit_smoke.py --workspace .test-tmp/tag-edit-gui --artifacts .test-tmp/tag-edit-screenshots
+.\.venv\Scripts\python.exe tests/gui_ocr_smoke.py --workspace .test-tmp/ocr-gui --artifacts .test-tmp/ocr-screenshots
 ```
 
 원본과 같은 **CPython 3.13.0** 환경에서 바이트코드 검증을 재현할 수 있어요. 복원 소스를 수정하면 비교 결과가 달라지는 것이 정상이에요.
@@ -160,8 +168,8 @@ GUI 검사는 화면을 띄우지 않는 Qt 모드로 실행하고, 지정한 �
 - **HWP 5.x**: BodyText의 모든 문단 레코드를 읽어요. 표·글상자·각주 등의 텍스트도 포함해요. `PrvText` 미리보기만 읽는 방식은 아니에요. 암호·배포용·이전 HWP 형식은 지원하지 않아요.
 - **HWPX**: ZIP 내부 본문 구역의 문단·텍스트 런을 순서대로 읽어요. 레이아웃을 재현하는 기능은 아니에요.
 - **TXT**: UTF-8(BOM 포함), BOM이 있는 UTF-16, CP949를 지원해요.
-- PDF·Word·Excel·PowerPoint·이미지 본문과 OCR은 아직 지원하지 않아요. 이 파일들은 파일명·태그명 검색이 가능하고, 본문 검색에서는 미지원 건수로 안내해요.
-- 이미지에만 들어 있는 글자와 임베디드 첨부 파일의 내용은 추출하지 않아요. 처리 한도는 구역/텍스트 데이터 64 MiB, 문서 본문 약 3,355만 글자이며 초과 파일은 실패로 안내해요.
+- PDF·Word·Excel·PowerPoint는 파일명·태그명 검색이 가능하고, 본문 검색에서는 미지원 건수로 안내해요. 독립 이미지 파일의 OCR은 지원해요.
+- HWP/HWPX 안에 삽입된 이미지와 임베디드 첨부 파일의 내용은 추출하지 않아요. 독립 이미지 파일은 아래 OCR 방식으로 읽어요. 처리 한도는 구역/텍스트 데이터 64 MiB, 문서 본문 약 3,355만 글자이며 초과 파일은 실패로 안내해요.
 
 이번 변경은 코어 회귀 검사 40개(기존 17개 포함), 기존 GUI 검사 23개, 본문 GUI 검사 18개를 통과했어요. 본문 GUI 검사는 실제 작업 스레드의 검색·미리보기·캐시 재사용·취소 후 재시도를 포함해요. 공개 [pyhwp 시험 문서](https://github.com/mete0r/pyhwp/tree/master/tests/hwp5_tests/fixtures) 8개도 별도로 확인했으며, 일반 문서 6개를 추출하고 암호·배포용 문서 2개는 해당 사유로 제외했어요. 공개 샘플 파일은 프로젝트에 포함하지 않았어요.
 
@@ -196,7 +204,7 @@ GUI 검사는 화면을 띄우지 않는 Qt 모드로 실행하고, 지정한 �
 | `tracked_files` | 이미 확인한 파일의 전체 경로와 파일명 |
 | `body_cache` | 기존 본문·파일 메타데이터 캐시 |
 
-`tagger/storage.py`의 `create_tag`는 태그 생성/재사용, `delete_tag`는 태그 자체 삭제, `show_tag`는 화면에 표시할 태그 목록과 파일 수 반환을 담당해요. `attach_tags`와 `detach_tags`는 선택한 파일에 부착/제거하고, `read_file_tags`는 경로별 태그를 조회해요. 화면 출력은 `widgets.py`, `dialogs.py`에서 처리해 DB 함수가 GUI에 종속되지 않게 했어요.
+`tagger/storage.py`의 `create_tag`는 태그 생성/재사용, `delete_tag`는 태그 자체 삭제, `show_tag`는 화면에 표시할 태그 목록과 파일 수 반환을 담당해요. `edit_tag`는 선택한 파일의 태그 이름을 변경하고, `attach_tags`와 `detach_tags`는 선택한 파일에 부착/제거하고, `read_file_tags`는 경로별 태그를 조회해요. 화면 출력은 `widgets.py`, `dialogs.py`에서 처리해 DB 함수가 GUI에 종속되지 않게 했어요.
 
 태그는 본문 캐시 행에 종속되지 않으므로 본문을 다시 추출하거나 사라진 파일의 본문 캐시를 정리해도 유지돼요. PDF 등 본문 미지원 파일에도 붙일 수 있어요. **DB 파일 자체를 삭제하면 태그도 없어지므로 이 파일을 함께 백업해야 해요.**
 
@@ -268,9 +276,45 @@ Windows 조회는 [SHGetFileInfoW](https://learn.microsoft.com/en-us/windows/win
 | 왼쪽 `최근 추가` 메뉴 | 버튼만 있고 최근 수집/등록한 파일을 구분해 보여 주는 동작은 없어요. 검색의 수정일 필터와는 별개예요. |
 | 왼쪽 `중복 파일` 메뉴 | 파일 내용의 중복을 찾아 목록으로 보여 주는 동작은 없어요. 파일 모으기의 동명 파일 `_중복1` 처리와는 별개예요. |
 | PDF·Word·Excel·PowerPoint 본문 검색 | 추출기는 HWP 5.x·HWPX·TXT만 지원해요. 다른 형식도 파일명·태그명 검색은 가능해요. |
-| 이미지/스캔 문서 OCR | 이미지에서 문자를 추출해 본문 검색에 넣는 기능은 없어요. |
+| 스캔 PDF·문서 내부 이미지 OCR | 독립 이미지 파일의 OCR은 지원해요. PDF 페이지와 HWP/HWPX 등에 삽입된 이미지를 따로 추출하는 기능은 아직 없어요. |
 | 500개 이후 결과 보기 | 검색 개수는 전체를 세지만 목록은 첫 500개까지만 표시해요. 다음 페이지나 더 보기 동작은 없어요. |
 
-근거는 `main.py`의 `build_sidebar()`(메뉴별 실행 연결 없음), `searcher/body_extractors.py`의 `extract_file_body()`(추출기 3종), `searcher/result_table.py`의 `MAX_ROWS`/`refresh()`예요.
+근거는 `main.py`의 `build_sidebar()`(메뉴별 실행 연결 없음), `searcher/body_extractors.py`의 `extract_file_body()`(문서 추출기 3종과 이미지 OCR), `searcher/result_table.py`의 `MAX_ROWS`/`refresh()`예요.
 
-추가로 현재 구현 범위의 제약이 있어요. 태그 관리는 생성·부착·제거·삭제·색 변경을 지원하고 **태그 이름 수정**은 없어요. 파일 이동 확인은 **같은 파일명**을 비교하므로 파일명 자체가 바뀐 경우까지 추적하지 않아요. 이 방식은 경로·파일명 위주의 가벼운 동작을 유지하기 위한 현재 설계예요. 암호 설정 HWP·배포용 HWP·HWP 5.x 이전 형식의 본문도 지원하지 않아요.
+추가로 현재 구현 범위의 제약이 있어요. 태그 관리는 생성·부착·제거·삭제·색 변경과 **선택한 파일의 태그 이름 수정**을 지원해요. 파일 이동 확인은 **같은 파일명**을 비교하므로 파일명 자체가 바뀐 경우까지 추적하지 않아요. 이 방식은 경로·파일명 위주의 가벼운 동작을 유지하기 위한 현재 설계예요. 암호 설정 HWP·배포용 HWP·HWP 5.x 이전 형식의 본문도 지원하지 않아요.
+
+## 선택한 파일의 태그 이름 수정
+
+왼쪽 **내 태그 → 태그 우클릭 → 태그 수정**에서 새 이름을 입력하고 변경할 파일을 체크해요. 목록에는 현재 검색 결과와 별개로 **해당 태그가 붙은 모든 등록 경로**를 보여 줘요. 파일명이 같아도 전체 경로로 구분하고, **전체 선택 / 선택 해제** 버튼으로 한꺼번에 체크하거나 해제할 수 있어요. 파일명이나 경로를 더블클릭하면 문서를 열어요.
+
+- **일부 파일 선택**: 선택한 파일의 해당 태그만 새 이름으로 바꾸고 기존 색을 이어받아요. 선택하지 않은 파일의 태그 이름과 각 파일의 다른 태그는 유지해요.
+- **전체 선택**: 새 이름이면 기존 태그의 ID·색을 유지하며 이름을 변경해요.
+- **이미 있는 태그 이름 입력**: 선택한 파일을 그 태그에 연결하고 그 태그의 색을 사용해요. 중복 연결은 만들지 않아요. 모든 파일을 옮기면 빈 기존 태그도 정리해요.
+- **빈 태그**: 파일 선택 없이 이름만 수정할 수 있어요. 대소문자만 바꾸는 경우는 동일한 태그로 취급하므로 전체 파일을 선택해야 해요.
+- **저장 실패·취소**: 취소는 변경을 저장하지 않아요. 저장 실패 시 입력과 선택을 유지해요. 수정 중 다른 창에서 선택한 연결이나 원래 태그 이름을 바꾼 경우에는 다시 확인하도록 안내해요.
+
+이름 수정은 SQLite 트랜잭션 하나로 저장하며 파일 자체·본문 캐시·경로 메타데이터를 바꾸지 않아요. 태그 바로 보기 중 수정하면 해당 목록과 제목을 갱신하고, 기존 태그로 전부 합친 경우 그 태그의 결과를 보여 줘요. 일반 검색 결과의 태그 표시도 즉시 갱신해요. 등록된 경로의 실제 파일이 사라져 있어도 태그 정보는 수정할 수 있어요.
+
+태그 이름 수정 추가 후 코어 **103개**, 관련 GUI **112개 항목**(이름 수정 45·색/바로 조회 32·기존 태그 35)을 통과했어요. 부분 수정·전체 이름 변경·기존 태그로 합치기·다른 태그 및 색 보존·취소·DB 오류 시 원상복구·재실행 후 보존을 확인해요. 상세 화면 동작은 Python 소스의 Qt GUI 검사로 검증해요.
+
+이번 실행파일은 build.bat로 다시 만들었고, 앱 모듈 **35개**의 코드가 현재 소스와 일치해요. 격리 프로필에서 EXE 시작과 SQLite 태그 테이블 초기화도 확인했어요.
+
+## 이미지 글자 검색 (내장 OCR)
+
+**파일 내용**을 체크하고 검색하면 이미지 안에 적힌 한국어·영어도 찾아요. 파일 종류를 **이미지**로 선택하면 이미지 파일만 검색해요. 결과를 선택하면 기존 **일치한 본문 일부** 영역에서 OCR로 추출한 글자를 확인할 수 있어요.
+
+- 지원 형식: PNG, JPG/JPEG, BMP, TIF/TIFF, 정지 WebP. TIFF는 모든 페이지를 순서대로 읽어요.
+- OCR은 새로 발견한 파일이나 크기·수정일이 달라진 파일에만 실행해요. 추출 결과는 기존 SQLite의 body_cache에 전체 본문으로 저장하고 이후 검색에서 재사용해요. 정상적으로 읽었으나 글자가 없는 이미지도 빈 본문으로 저장하므로 매번 OCR을 반복하지 않아요.
+- 오류나 취소로 완료하지 못한 파일은 다음 검색에 재시도해요. 이미지가 바뀐 뒤 읽기에 실패하면 이전 글자가 결과에 섞이지 않도록 해당 캐시를 무효화해요. 파일명·태그명 검색만 켠 경우에는 OCR을 실행하지 않아요.
+- 사진의 EXIF 회전을 적용하고 투명 배경은 흰색으로 합성한 뒤 글자를 읽어요. 원본 이미지 파일은 바꾸지 않아요.
+- OCR은 검색 작업 스레드에서 로컬 자식 프로세스로 실행해요. 진행 창에 **이미지 글자 인식 중**을 표시하며 취소하면 OCR 프로세스도 종료해요. 명령 창을 따로 띄우지 않아요.
+- 손글씨, 흐린 사진, 여러 단이나 복잡한 배치, 세로·기울어진 글자는 오인식/누락이 생길 수 있어요. 추출 결과의 띄어쓰기와 줄바꿈에도 영향을 받으며 원본과 완전히 동일한 문자열을 보장하지 않아요.
+- 처리 한도: 파일 64 MiB, 한 페이지 4,000만 화소, TIFF 100페이지, 파일당 인식 120초, 추출 글자 약 419만 자. 움직이는 WebP와 GIF, HEIC, 스캔 PDF 및 문서에 삽입된 이미지는 이번 지원 범위에 포함하지 않아요.
+
+엔진은 [Tesseract 5.5.3 Windows 배포본](https://github.com/tesseract-ocr/tesseract/releases/tag/5.5.3)이고, 공식 [tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast)의 한국어·영어 모델을 고정 커밋으로 포함해요. 엔진·모델·필수 DLL은 약 **52 MiB**예요. 사용자는 Tesseract나 Python을 따로 설치할 필요가 없고, OCR 중 인터넷 연결이나 외부 AI API도 사용하지 않아요.
+
+빌드할 때 vendor/tesseract의 해시 목록을 검사하고 배포 폴더의 _internal/ocr_runtime에 그대로 복사해요. 원본 다운로드 주소와 SHA-256은 manifest.json, 구성요소의 라이선스와 소스 출처는 THIRD_PARTY_NOTICES.txt와 licenses 폴더에 있어요. **배포할 때는 EXE와 _internal을 포함한 dist/FileSearch 폴더 전체를 전달해요.** 소스로 실행할 때도 vendor/tesseract 폴더를 함께 유지해요.
+
+OCR 추가 후 코어 **117개**, 관련 GUI **38개 항목**(OCR 20·기존 본문 18)을 통과했어요. 실제 한국어·영어 인식, 지원 이미지 형식, 투명 배경·회전·다중 페이지, 캐시 재사용·수정 파일만 재처리, 오류 후 복구, 취소·시간 초과 시 자식 프로세스 종료, 기존 문서 캐시·태그 보존을 확인했어요. 상세 화면 동작은 Python 소스의 Qt GUI 검사로 검증해요.
+
+OCR 배포본의 앱 모듈 **37개**가 현재 소스와 일치하고 OCR 구성 파일 **86개**의 해시를 확인했어요. 번들에서 추출한 OCR 코드와 포함된 엔진으로 한국어·영어 인식, 한글·공백 설치 경로, 시스템 OCR 경로 없이 실행, SQLite 캐시 재사용과 수정 파일만 재처리를 검증했어요. EXE 시작은 격리된 화면 없는 프로필에서 별도로 확인했어요. 전체 배포 폴더는 **297개 파일, 약 222 MiB**예요.

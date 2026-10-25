@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Recovered FileSearch desktop project"
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
-dependencies = ["PySide6==6.12.0", "olefile==0.47"]
+dependencies = ["PySide6==6.12.0", "olefile==0.47", "Pillow==13.0.0"]
 classifiers = [
     "Programming Language :: Python :: 3.13",
     "Operating System :: Microsoft :: Windows",
@@ -21,4 +21,4 @@ filesearch = "main:main"
 py-modules = ["main"]
 
 [tool.setuptools.packages.find]
-include = ["collector*", "common*", "searcher*", "tagger*"]
+include = ["collector*", "common*", "searcher*", "tagger*", "ocr*"]

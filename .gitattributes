@@ -1,0 +1,2 @@
+# Preserve bundled OCR bytes for manifest SHA-256 verification.
+vendor/tesseract/** -text

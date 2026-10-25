@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 import os
 import sqlite3
 
+from ocr import IMAGE_EXTENSIONS
 from searcher.body_extractors import EXTRACTOR_VERSION, ExtractionError, extract_file_body
 from searcher.metadata import (
     CachedMetadata, FileMetadata, SearchCancelled, check_cancelled, metadata_for_path,
@@ -99,7 +100,8 @@ def sync_body_cache(connection, root, changes, candidates, *,
                if item.key in candidates]
     for index, item in enumerate(pending):
         check_cancelled(should_stop)
-        on_progress("본문 읽는 중", index, len(pending), item.path)
+        phase = "이미지 글자 인식 중" if os.path.splitext(item.name)[1][1:].lower() in IMAGE_EXTENSIONS else "본문 읽는 중"
+        on_progress(phase, index, len(pending), item.path)
         # 이전 본문을 먼저 무효화해 읽기 실패/중단 후 옛 내용이 검색되지 않게 해요.
         _store(connection, root, item, status="pending")
         try:
@@ -121,5 +123,5 @@ def sync_body_cache(connection, root, changes, candidates, *,
         else:
             _store(connection, root, after, status="ready", body=body)
             result.refreshed += 1
-        on_progress("본문 읽는 중", index + 1, len(pending), item.path)
+        on_progress(phase, index + 1, len(pending), item.path)
     return result

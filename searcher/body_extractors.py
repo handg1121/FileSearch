@@ -1,4 +1,4 @@
-"""HWP 5.x / HWPX / TXT에서 검색할 글자를 추출해요. 외부 앱을 실행하지 않아요."""
+"""문서 본문과 이미지의 OCR 글자를 추출해요."""
 
 from pathlib import Path
 import re
@@ -10,9 +10,12 @@ import zlib
 
 import olefile
 
+from ocr import IMAGE_EXTENSIONS
+from ocr.reader import extract_image_body
+
 from searcher.metadata import check_cancelled
 
-SUPPORTED_EXTENSIONS = frozenset({"hwp", "hwpx", "txt"})
+SUPPORTED_EXTENSIONS = frozenset({"hwp", "hwpx", "txt"}) | IMAGE_EXTENSIONS
 EXTRACTOR_VERSION = 1
 MAX_STREAM_BYTES = 64 * 1024 * 1024
 MAX_BODY_CHARS = 32 * 1024 * 1024
@@ -198,9 +201,12 @@ def extract_file_body(path, *, should_stop=lambda: False):
     check_cancelled(should_stop)
     extension = Path(path).suffix.lower().lstrip(".")
     readers = {"hwp": _hwp, "hwpx": _hwpx, "txt": _txt}
-    if extension not in readers:
+    if extension in IMAGE_EXTENSIONS:
+        text = extract_image_body(path, should_stop=should_stop)
+    elif extension in readers:
+        text = readers[extension](path, should_stop)
+    else:
         raise ExtractionError(f".{extension} 본문 검색은 아직 지원하지 않아요.")
-    text = readers[extension](path, should_stop)
     check_cancelled(should_stop)
     if len(text) > MAX_BODY_CHARS:
         raise ExtractionError("본문 글자 수가 처리 한도를 초과했어요.")
