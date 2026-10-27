@@ -149,3 +149,36 @@ def resolve_path_moves(choices, *, transfer, db_path=None):
                 # 동명 파일의 내용은 다를 수 있으므로 이전 본문은 옮기지 않아요.
                 connection.execute("DELETE FROM body_cache WHERE path_key = ?", (old_key,))
         return len(unique)
+
+
+def transfer_tags_to_kept(pairs, db_path=None):
+    """중복 정리로 휴지통에 보낸 파일의 태그를 남긴 파일로 옮기고, 새로 붙은 연결 수를 돌려줘요.
+
+    resolve_path_moves와 달리 남긴 파일이 이미 등록돼 있거나 태그가 있어도 괜찮아요.
+    같은 태그는 하나로 합쳐요. 지운 경로의 태그 연결·등록 정보·본문 캐시는 삭제해요.
+    모든 변경은 한 트랜잭션으로 처리해요.
+    """
+    pairs = list(pairs)
+    if not pairs:
+        return 0
+    with _connect(db_path) as connection, connection:
+        connection.execute("BEGIN IMMEDIATE")
+        has_body = connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='body_cache'").fetchone()
+        moved = 0
+        for removed_path, kept_path in pairs:
+            removed_key = path_key(removed_path)
+            kept_path = os.path.abspath(kept_path)
+            kept_key = path_key(kept_path)
+            if removed_key == kept_key:
+                raise ValueError(f"남길 파일과 지운 파일이 같아요: {kept_path}")
+            moved += connection.execute("""
+                INSERT INTO file_tags(path_key, path, tag_id)
+                SELECT ?, ?, tag_id FROM file_tags WHERE path_key = ?
+                ON CONFLICT(path_key, tag_id) DO NOTHING
+            """, (kept_key, kept_path, removed_key)).rowcount
+            _remember_paths(connection, [kept_path])
+            connection.execute("DELETE FROM file_tags WHERE path_key = ?", (removed_key,))
+            connection.execute("DELETE FROM tracked_files WHERE path_key = ?", (removed_key,))
+            if has_body:
+                connection.execute("DELETE FROM body_cache WHERE path_key = ?", (removed_key,))
+        return moved

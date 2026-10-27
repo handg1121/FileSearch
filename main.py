@@ -16,6 +16,7 @@ from common.settings import get_save_dir
 from common.widgets import (
     STYLE, make_button, make_label, make_separator,
 )
+from duplicates.controller import DuplicateController
 from searcher.filename_search import modified_since, parse_keywords
 from searcher.preview_panel import PreviewPanel
 from searcher.result_table import ResultPanel
@@ -44,6 +45,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central)
         self.build_status_bar()
         self.tags = TagController(self)
+        self.duplicates = DuplicateController(self)
 
     def build_sidebar(self):
         sidebar = QFrame()
@@ -53,6 +55,7 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(12, 20, 12, 12)
         layout.setSpacing(4)
         nav_group = QButtonGroup(self)
+        self.nav_buttons = {}
         for text in ("전체 파일", "최근 추가", "중복 파일"):
             button = QPushButton()
             button.setObjectName("navButton")
@@ -66,6 +69,7 @@ class MainWindow(QMainWindow):
             row.addWidget(name_label)
             row.addStretch()
             nav_group.addButton(button)
+            self.nav_buttons[text] = button
             layout.addWidget(button)
         nav_group.buttons()[0].setChecked(True)
         layout.addSpacing(12)
