@@ -39,13 +39,13 @@ def main():
     if any(r["tag_name"] == "v" + config.VERSION for r in releases):
         raise RuntimeError("This version already has a release; do not overwrite a published update")
     directory = ROOT / "dist/releases" / config.VERSION
-    names = [f"FileSearch-Setup-{config.VERSION}.exe", f"FileSearch-update-{config.VERSION}-win64.zip", "update.json"]
+    names = ["FileSearch.exe", f"FileSearch-update-{config.VERSION}-win64.zip", "update.json"]
     for name in names:
         if not (directory / name).is_file():
             raise RuntimeError("Missing release asset: " + name)
     download = f"https://github.com/{config.REPOSITORY}/releases/download/v{config.VERSION}/{names[0]}"
-    body = (f"[**FileSearch 설치 파일 받기 (.exe)**]({download})\n\n"
-            "처음 설치할 때는 위 EXE 하나만 받으세요. 나머지 파일은 프로그램이 자동 업데이트에 사용해요.\n\n"
+    body = (f"[**FileSearch 바로 실행하기 — EXE 다운로드**]({download})\n\n"
+            "위 EXE 하나를 받아 더블클릭하세요. 설치 과정은 없어요. 나머지 파일은 프로그램이 자동 업데이트에 사용해요.\n\n"
             + args.body_file.read_text(encoding="utf-8"))
     release = request(base + "/releases", json.dumps({"tag_name": "v" + config.VERSION,
                       "target_commitish": args.target, "name": "FileSearch " + config.VERSION,

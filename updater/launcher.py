@@ -18,7 +18,7 @@ def start_application(layout, state, ack, token, notice="", extra_args=()):
     app_dir = layout.version_dir(state["active"])
     exe = app_dir / "FileSearchApp.exe"
     if not exe.is_file():
-        raise UpdateError("프로그램 파일을 찾을 수 없어요. 설치 파일을 다시 받아 주세요.")
+        raise UpdateError("프로그램 파일을 찾을 수 없어요. FileSearch.exe를 다시 받아 주세요.")
     environment = os.environ.copy()
     for key in list(environment):
         if key.startswith("FILESEARCH_UPDATE_"):
@@ -112,15 +112,20 @@ def record_error(layout, error):
         pass
 
 
-def main():
-    root = Path(sys.executable).parent if getattr(sys, "frozen", False) else Path(sys.argv[1])
+def main(root=None, prepare=None):
     extra_args = ["--self-test"] if "--self-test" in sys.argv else []
     registering = "--register-install" in sys.argv
     try:
+        if root is None:
+            root = Path(sys.executable).parent if getattr(sys, "frozen", False) else Path(sys.argv[1])
+        elif callable(root):
+            root = root()
         layout = Layout(root)
         with install_lock(layout):
             # A launcher crash must not allow a second instance beside its orphaned app.
             with install_lock(layout, "app.lock"):
+                if prepare is not None:
+                    prepare(layout)
                 if registering:
                     from updater.installer import register_install
                     register_install(layout)

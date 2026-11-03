@@ -18,7 +18,7 @@ shift
 goto arguments
 :arguments_done
 rem Only these scratch outputs are replaced by PyInstaller. Installed copies are separate.
-"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -NonInteractive -Command "$scratchRoots = @((Join-Path (Get-Location) 'dist\_app\'), (Join-Path (Get-Location) 'dist\_launcher\')); foreach ($process in Get-Process -Name FileSearch,FileSearchApp -ErrorAction SilentlyContinue) { foreach ($scratchRoot in $scratchRoots) { if ($process.Path -and $process.Path.StartsWith($scratchRoot,[StringComparison]::OrdinalIgnoreCase)) { exit 1 } } }"
+"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -NonInteractive -Command "$scratchRoots = @((Join-Path (Get-Location) 'dist\_app\'), (Join-Path (Get-Location) 'dist\_launcher\')); foreach ($process in Get-Process -Name FileSearch,FileSearchApp -ErrorAction SilentlyContinue) { foreach ($scratchRoot in $scratchRoots) { if ($process.Path -and $process.Path.StartsWith($scratchRoot,[StringComparison]::OrdinalIgnoreCase)) { exit 1 } } }; exit 0"
 if errorlevel 1 (
     echo ERROR: Close the scratch app under dist\_app or dist\_launcher before building.
     goto finish
@@ -42,13 +42,13 @@ if errorlevel 1 (
 echo [1/2] Preparing build dependencies...
 "%BUILD_PYTHON%" -m pip install --disable-pip-version-check -r requirements-build.txt
 if errorlevel 1 goto failed
-echo [2/2] Building the application and a single installer EXE...
+echo [2/2] Building a single EXE that runs without installation...
 set "PYINSTALLER_CONFIG_DIR=%CD%\build\.pyinstaller-cache"
 "%BUILD_PYTHON%" tools\build_release.py %BUILD_RELEASE%
 if errorlevel 1 goto failed
 set "BUILD_EXIT_CODE=0"
 echo.
-echo Build complete. The installer path is printed above.
+echo Build complete. The standalone EXE path is printed above.
 echo Nothing was installed, launched, tested, or uploaded.
 goto finish
 :missing_python

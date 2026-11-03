@@ -1,8 +1,9 @@
-"""Build a user installer; --release additionally produces signed automatic-update files."""
+"""Build a standalone EXE; --release additionally produces signed automatic-update files."""
 import argparse
 import base64
 from datetime import datetime
 import hashlib
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -13,7 +14,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from updater import config
 from updater.protocol import json_bytes, verify_manifest, version_tuple
-from tools.build_installer import build_installer, ensure_nsis
 
 
 def zip_tree(source, target):
@@ -23,6 +23,12 @@ def zip_tree(source, target):
                 raise ValueError('Links are not allowed in release bundles')
             if file.is_file():
                 archive.write(file, file.relative_to(source).as_posix())
+
+
+def freeze(spec, destination, work, environment=None):
+    subprocess.run([sys.executable, '-m', 'PyInstaller', '--noconfirm', '--clean',
+                    '--distpath', str(destination), '--workpath', str(ROOT / 'build' / work),
+                    str(ROOT / spec)], cwd=ROOT, env=environment, check=True)
 
 
 def build(release=False):
@@ -40,36 +46,36 @@ def build(release=False):
             raise RuntimeError('This release version already has output. Increase VERSION before a new release.')
     else:
         output = ROOT / 'dist/development' / (config.VERSION + '-' + datetime.now().strftime('%Y%m%d-%H%M%S-%f'))
-        bootstrap = output / 'FileSearch'
-    compiler = ensure_nsis()  # Fail before the app build if the compiler cannot be obtained.
-    for spec, destination, work in (('FileSearch.spec', '_app', 'release-app'),
-                                     ('Launcher.spec', '_launcher', 'release-launcher')):
-        subprocess.run([sys.executable, '-m', 'PyInstaller', '--noconfirm', '--clean',
-                        '--distpath', str(ROOT / 'dist' / destination), '--workpath', str(ROOT / 'build' / work),
-                        str(ROOT / spec)], cwd=ROOT, check=True)
+        bootstrap = output / 'folder-build'
+    freeze('FileSearch.spec', ROOT / 'dist/_app', 'release-app')
     app = ROOT / 'dist/_app/FileSearchApp'
     metadata = {'version': config.VERSION, 'data_schema': config.DATA_SCHEMA, 'launcher_protocol': config.LAUNCHER_PROTOCOL}
     (app / 'release.json').write_bytes(json_bytes(metadata))
     output.mkdir(parents=True, exist_ok=True)
+
+    # The same complete archive powers both first launch and signed online updates.
+    payload_dir = output / 'embedded-payload'
+    payload_dir.mkdir()
+    payload_zip = payload_dir / 'app.zip'
+    zip_tree(app, payload_zip)
+    bundle = dict(metadata, size=payload_zip.stat().st_size,
+                  sha256=hashlib.sha256(payload_zip.read_bytes()).hexdigest(), development=not release)
+    (payload_dir / 'bundle.json').write_bytes(json_bytes(bundle))
+    freeze('Portable.spec', output, 'release-portable',
+           dict(os.environ, FILESEARCH_BUILD_PAYLOAD=str(payload_dir)))
+
+    # Preserve a developer-only folder bundle for compatibility diagnostics.
+    freeze('Launcher.spec', ROOT / 'dist/_launcher', 'release-launcher')
     (bootstrap / 'versions').mkdir(parents=True)
     shutil.copytree(app, bootstrap / 'versions' / config.VERSION)
     shutil.copy2(ROOT / 'dist/_launcher/FileSearch.exe', bootstrap / 'FileSearch.exe')
-    (bootstrap / 'licenses').mkdir()
-    shutil.copy2(compiler.parent / 'COPYING', bootstrap / 'licenses/NSIS-LICENSE.txt')
-    (bootstrap / 'THIRD_PARTY_NOTICES.txt').write_text(
-        'Installer: NSIS 3.13 (https://nsis.sourceforge.io/), license: licenses/NSIS-LICENSE.txt\n'
-        'NSIS source: https://sourceforge.net/projects/nsis/files/NSIS%203/3.13/nsis-3.13-src.tar.bz2/download\n'
-        'OCR notices and licenses: versions/<version>/_internal/ocr_runtime/THIRD_PARTY_NOTICES.txt\n', encoding='utf-8')
     (bootstrap / '시작 안내.txt').write_text(
-        'FileSearch.exe를 실행하세요. 이 폴더는 쓰기 가능한 위치에 보관하세요.\n'
-        '업데이트는 자동으로 준비되고 프로그램 종료 후 적용돼요.\n'
-        '기존 파일, 태그와 설정은 유지돼요.\n', encoding='utf-8')
-    installer = build_installer(bootstrap, output / f'FileSearch-Setup-{config.VERSION}.exe', config.VERSION)
+        '이 폴더는 개발자용 폴더 빌드예요. 전체 폴더를 유지한 채 FileSearch.exe를 실행하세요.\n'
+        '사용자 배포 파일은 releases/<버전>/FileSearch.exe 단일 파일이에요.\n', encoding='utf-8')
     if release:
         update = output / f'FileSearch-update-{config.VERSION}-win64.zip'
-        zip_tree(app, update)
-        payload = json_bytes(dict(metadata, schema=1, size=update.stat().st_size,
-                                 sha256=hashlib.sha256(update.read_bytes()).hexdigest(),
+        shutil.copy2(payload_zip, update)
+        payload = json_bytes(dict(metadata, schema=1, size=bundle['size'], sha256=bundle['sha256'],
                                  url=f'https://github.com/{config.REPOSITORY}/releases/download/v{config.VERSION}/{update.name}'))
         manifest = json_bytes({'payload': base64.b64encode(payload).decode('ascii'),
                                'signature': base64.b64encode(key.sign(payload)).decode('ascii')})
@@ -79,8 +85,8 @@ def build(release=False):
               'files': {path.name: {'size': path.stat().st_size, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
                         for path in sorted(output.iterdir()) if path.is_file()}}
     (output / 'build-info.json').write_bytes(json_bytes(record))
-    print(f'Ready: {installer}')
-    print('Application and installer were built; no runtime tests or installation were run.')
+    print(f'Ready: {output / "FileSearch.exe"}')
+    print('Standalone EXE and app were built; no runtime tests, installation, or upload were run.')
 
 
 if __name__ == '__main__':

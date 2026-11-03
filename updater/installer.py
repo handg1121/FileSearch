@@ -1,4 +1,4 @@
-"""Register files copied by the per-user installer without opening the application."""
+"""Register a bundled base version, used by the portable bootstrap and legacy installer."""
 import json
 
 from updater import config
@@ -12,7 +12,7 @@ def register_install(layout):
                 'launcher_protocol': config.LAUNCHER_PROTOCOL}
     if (not (candidate / 'FileSearchApp.exe').is_file()
             or json.loads((candidate / 'release.json').read_bytes()) != expected):
-        raise UpdateError('설치 파일이 완전하지 않아요. 설치 프로그램을 다시 실행해 주세요.')
+        raise UpdateError('프로그램 파일이 완전하지 않아요. FileSearch.exe를 다시 받아 주세요.')
     if not layout.state_path.exists():
         # A new installation's bundled version is its explicit base version.
         state = layout.read_state()
