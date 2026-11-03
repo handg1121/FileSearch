@@ -4,17 +4,18 @@ from datetime import datetime
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
-    QComboBox, QHBoxLayout, QHeaderView, QLabel, QMenu, QMessageBox,
+    QAbstractSpinBox, QComboBox, QHBoxLayout, QHeaderView, QLabel, QMenu, QMessageBox, QSpinBox,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
 )
 
 from common.file_actions import open_file, open_folder
-from common.widgets import format_size, make_label, make_type_icon, transparent_widget
+from common.widgets import format_size, make_button, make_label, make_type_icon, transparent_widget
 from searcher.filename_search import SORT_ORDERS, sort_hits
 from tagger.badges import BADGES_ROLE, TagBadgeDelegate
 from tagger.colors import DEFAULT_TAG_COLOR
 
-MAX_ROWS = 500
+PAGE_SIZES = (10, 30, 50, 100, 300, 500)
+DEFAULT_PAGE_SIZE = 50
 COL_CHECK, COL_NAME, COL_TAGS, COL_MODIFIED, COL_SIZE = range(5)
 
 
@@ -24,6 +25,8 @@ class ResultPanel(QWidget):
         self.hits = []
         self.keywords = []
         self.tag_filter = None
+        self.ordered_hits = []
+        self.current_page = 0
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(8)
@@ -43,7 +46,70 @@ class ResultPanel(QWidget):
         layout.addLayout(title_row)
         self.table = ResultTable()
         layout.addWidget(self.table, 1)
-        layout.addWidget(make_label("더블클릭으로 파일 열기 · 우클릭으로 폴더 열기", "muted"))
+        layout.addLayout(self.build_pagination())
+        self.render_page()
+
+    def build_pagination(self):
+        row = QHBoxLayout()
+        row.setSpacing(8)
+        row.addWidget(make_label("페이지당", "muted"))
+        self.page_size_combo = QComboBox()
+        self.page_size_combo.setAccessibleName("페이지당 표시 개수")
+        self.page_size_combo.setStyleSheet("min-width: 70px; padding: 4px 8px;")
+        for size in PAGE_SIZES:
+            self.page_size_combo.addItem(f"{size}개", size)
+        self.page_size_combo.setCurrentIndex(PAGE_SIZES.index(DEFAULT_PAGE_SIZE))
+        self.page_size_combo.currentIndexChanged.connect(self.change_page_size)
+        row.addWidget(self.page_size_combo)
+        self.range_label = make_label("", "muted")
+        row.addWidget(self.range_label)
+        row.addStretch()
+
+        def navigation_button(text, accessible_name, callback):
+            button = make_button(text, "secondaryButton")
+            button.setStyleSheet("padding: 4px 8px;")
+            button.setAccessibleName(accessible_name)
+            button.setToolTip(accessible_name)
+            button.clicked.connect(callback)
+            row.addWidget(button)
+            return button
+
+        self.first_button = navigation_button("처음", "첫 페이지", lambda: self.go_to_page(0))
+        self.previous_button = navigation_button("이전", "이전 페이지", lambda: self.go_to_page(self.current_page - 1))
+        self.page_input = QSpinBox()
+        self.page_input.setAccessibleName("현재 페이지")
+        self.page_input.setToolTip("페이지 번호를 입력하고 Enter를 누르세요.")
+        self.page_input.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.page_input.setKeyboardTracking(False)
+        self.page_input.setAlignment(Qt.AlignCenter)
+        self.page_input.setFixedWidth(64)
+        self.page_input.setMinimumHeight(30)
+        self.page_input.lineEdit().setStyleSheet("border: none; padding: 0; background: transparent;")
+        self.page_input.valueChanged.connect(lambda value: self.go_to_page(value - 1))
+        row.addWidget(self.page_input)
+        self.page_count_label = make_label("", "muted")
+        row.addWidget(self.page_count_label)
+        self.next_button = navigation_button("다음", "다음 페이지", lambda: self.go_to_page(self.current_page + 1))
+        self.last_button = navigation_button("마지막", "마지막 페이지", lambda: self.go_to_page(self.page_count - 1))
+        return row
+
+    @property
+    def page_size(self):
+        return self.page_size_combo.currentData()
+
+    @property
+    def page_count(self):
+        return (len(self.ordered_hits) + self.page_size - 1) // self.page_size
+
+    def change_page_size(self):
+        self.current_page = 0
+        self.render_page()
+
+    def go_to_page(self, page):
+        page = max(0, min(page, self.page_count - 1))
+        if page != self.current_page:
+            self.current_page = page
+            self.render_page()
 
     def set_tag_filter(self, name):
         self.tag_filter = name
@@ -57,13 +123,30 @@ class ResultPanel(QWidget):
         self.refresh()
 
     def refresh(self):
-        ordered = sort_hits(self.hits, self.sort_combo.currentText())
-        self.table.show_hits(ordered[:MAX_ROWS], self.keywords)
-        text = f"{len(ordered):,}개"
-        if len(ordered) > MAX_ROWS:
-            text += (f" (처음 {MAX_ROWS}개만 표시)" if self.tag_filter else
-                     f" (처음 {MAX_ROWS}개만 표시, 검색어를 더 넣어 보세요)")
-        self.count_label.setText(text)
+        # Sort the complete result once. Page changes only slice this ordered list.
+        self.ordered_hits = sort_hits(self.hits, self.sort_combo.currentText())
+        self.current_page = 0
+        self.render_page()
+
+    def render_page(self):
+        total = len(self.ordered_hits)
+        pages = self.page_count
+        self.current_page = max(0, min(self.current_page, pages - 1))
+        start = self.current_page * self.page_size
+        end = min(start + self.page_size, total)
+        self.count_label.setText(f"{total:,}개")
+        self.range_label.setText(f"{start + 1:,}–{end:,} / {total:,}개" if total else "0개")
+        previous = self.page_input.blockSignals(True)
+        self.page_input.setRange(1 if total else 0, pages)
+        self.page_input.setValue(self.current_page + 1 if total else 0)
+        self.page_input.blockSignals(previous)
+        self.page_input.setEnabled(bool(total))
+        self.page_count_label.setText(f"/ {pages:,}페이지")
+        self.first_button.setEnabled(self.current_page > 0)
+        self.previous_button.setEnabled(self.current_page > 0)
+        self.next_button.setEnabled(self.current_page + 1 < pages)
+        self.last_button.setEnabled(self.current_page + 1 < pages)
+        self.table.show_hits(self.ordered_hits[start:end], self.keywords)
 
 
 class ResultTable(QTableWidget):
@@ -100,11 +183,15 @@ class ResultTable(QTableWidget):
     def show_hits(self, hits, keywords):
         self.blockSignals(True)
         self.clearContents()
+        self.clearSelection()
+        self.setCurrentCell(-1, -1)
+        self.tags_by_path = {}
         self.hits = hits
         self.setRowCount(len(hits))
         for row, hit in enumerate(hits):
             self.fill_row(row, hit, keywords)
         self.blockSignals(False)
+        self.scrollToTop()
         self.current_hit_changed.emit(None)
         self.checked_count_changed.emit(0)
         self.hits_changed.emit()

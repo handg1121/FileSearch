@@ -7,3 +7,4 @@ dist/
 .pytest_cache/
 .test-tmp/
 .build-python/
+.build-tools/

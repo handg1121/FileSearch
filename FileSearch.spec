@@ -37,7 +37,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name="FileSearch",
+    name="FileSearchApp",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -46,4 +46,4 @@ exe = EXE(
     disable_windowed_traceback=False,
     contents_directory="_internal",
 )
-coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="FileSearch")
+coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="FileSearchApp")

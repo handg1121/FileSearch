@@ -58,8 +58,17 @@ class PreviewPanel(QFrame):
         body_title.setStyleSheet("font-weight: bold;")
         layout.addWidget(body_title)
         self.body = QTextBrowser()
-        self.body.setPlaceholderText("본문 검색으로 찾은 파일을 선택하면 일치한 문구 주변을 보여 줘요.")
         self.body.setMinimumHeight(200)
+        # QTextBrowser의 placeholder는 줄바꿈 없이 한 줄로 잘려요. 너비에 맞춰 줄바꿈되는
+        # 안내 라벨을 본문 칸 안에 올려 두고, 본문이 비어 있을 때만 보여 줘요.
+        self.body_hint = make_label("본문 검색으로 찾은 파일을 선택하면 일치한 문구 주변을 보여 줘요.", "muted")
+        self.body_hint.setWordWrap(True)
+        self.body_hint.setAttribute(Qt.WA_TransparentForMouseEvents)
+        hint_layout = QVBoxLayout(self.body.viewport())
+        margin = round(self.body.document().documentMargin())
+        hint_layout.setContentsMargins(margin, margin, margin, margin)
+        hint_layout.addWidget(self.body_hint)
+        hint_layout.addStretch()
         layout.addWidget(self.body, 1)
         layout.addSpacing(6)
         tags_title = make_label("부착된 태그")
@@ -74,7 +83,9 @@ class PreviewPanel(QFrame):
     def show_hit(self, hit):
         self.hit = hit
         self.show_tags(())
-        self.body.setPlainText(hit.body_excerpt if hit else "")
+        excerpt = hit.body_excerpt if hit else ""
+        self.body.setPlainText(excerpt)
+        self.body_hint.setVisible(not excerpt)
         set_type_icon(self.icon, hit.name if hit else "")
         if hit is None:
             self.name_label.setText("파일을 선택하세요")

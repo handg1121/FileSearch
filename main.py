@@ -2,8 +2,11 @@
 import os
 import sys
 import time
+import tempfile
+from contextlib import ExitStack
+from pathlib import Path
 
-from PySide6.QtCore import QLibraryInfo, Qt, QTranslator
+from PySide6.QtCore import QLibraryInfo, Qt, QTranslator, QTimer
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QApplication, QButtonGroup, QDialog, QFrame, QHBoxLayout, QLabel,
@@ -26,12 +29,15 @@ from searcher.workers import SearchThread
 
 from tagger.controller import TagController
 from tagger.widgets import TagBar, TagSidebar
+from updater import config as app_config
+from updater.ui import UpdateController, acknowledge_startup
+from updater.storage import Layout, install_lock
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("파일 검색기")
+        self.setWindowTitle(f"파일 검색기 · {app_config.VERSION}")
         self.resize(1500, 920)
         self.root_dir = get_save_dir()
         self.active_tag_id = None
@@ -46,6 +52,13 @@ class MainWindow(QMainWindow):
         self.build_status_bar()
         self.tags = TagController(self)
         self.duplicates = DuplicateController(self)
+        self.updates = UpdateController(self, automatic="--self-test" not in sys.argv)
+
+    def closeEvent(self, event):
+        if self.updates.allow_close():
+            super().closeEvent(event)
+        else:
+            event.ignore()
 
     def build_sidebar(self):
         sidebar = QFrame()
@@ -72,6 +85,7 @@ class MainWindow(QMainWindow):
             self.nav_buttons[text] = button
             layout.addWidget(button)
         nav_group.buttons()[0].setChecked(True)
+        self.nav_buttons["전체 파일"].clicked.connect(self.show_all_files)
         layout.addSpacing(12)
         layout.addWidget(make_separator())
         layout.addSpacing(12)
@@ -138,6 +152,11 @@ class MainWindow(QMainWindow):
 
     def update_selected_count(self, count):
         self.tag_bar.set_selected_count(count)
+
+    def show_all_files(self):
+        """검색어를 비운 뒤 검색 버튼을 누른 것과 같은 조건으로 조회해요."""
+        self.search_bar.keyword_input.clear()
+        self.run_search()
 
     def run_search(self, tag_id=None):
         name_enabled = self.search_bar.name_search_enabled()
@@ -223,15 +242,29 @@ class MainWindow(QMainWindow):
 
 
 def main():
-    app = QApplication(sys.argv)
-    app.setFont(QFont("Malgun Gothic", 10))
-    app.setStyleSheet(STYLE)
-    translator = QTranslator(app)
-    if translator.load("qtbase_ko", QLibraryInfo.path(QLibraryInfo.TranslationsPath)):
-        app.installTranslator(translator)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
+    with ExitStack() as resources:
+        self_test = "--self-test" in sys.argv
+        if self_test:
+            os.environ["QT_QPA_PLATFORM"] = "offscreen"
+            temporary = resources.enter_context(tempfile.TemporaryDirectory(prefix="filesearch-startup-"))
+            from common import settings
+            settings.SETTINGS_PATH = str(Path(temporary) / "profile/settings.json")
+        install_root = os.environ.get("FILESEARCH_INSTALL_ROOT")
+        if getattr(sys, "frozen", False) and install_root:
+            resources.enter_context(install_lock(Layout(install_root), "app.lock"))
+        app = QApplication(sys.argv)
+        app.setFont(QFont("Malgun Gothic", 10))
+        app.setStyleSheet(STYLE)
+        translator = QTranslator(app)
+        if translator.load("qtbase_ko", QLibraryInfo.path(QLibraryInfo.TranslationsPath)):
+            app.installTranslator(translator)
+        window = MainWindow()
+        window.show()
+        QTimer.singleShot(250, acknowledge_startup)
+        if self_test:
+            QTimer.singleShot(1000, window.close)
+        result = app.exec()
+    sys.exit(result)
 
 
 if __name__ == "__main__":
