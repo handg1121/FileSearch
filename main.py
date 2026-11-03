@@ -84,6 +84,7 @@ class MainWindow(QMainWindow):
             self.nav_buttons[text] = button
             layout.addWidget(button)
         nav_group.buttons()[0].setChecked(True)
+        self.nav_buttons["전체 파일"].clicked.connect(self.show_all_files)
         layout.addSpacing(12)
         layout.addWidget(make_separator())
         layout.addSpacing(12)
@@ -150,6 +151,11 @@ class MainWindow(QMainWindow):
 
     def update_selected_count(self, count):
         self.tag_bar.set_selected_count(count)
+
+    def show_all_files(self):
+        """검색어를 비운 뒤 검색 버튼을 누른 것과 같은 조건으로 조회해요."""
+        self.search_bar.keyword_input.clear()
+        self.run_search()
 
     def run_search(self, tag_id=None):
         name_enabled = self.search_bar.name_search_enabled()

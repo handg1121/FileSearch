@@ -64,7 +64,8 @@ check("real_signed_update_activated", state["active"] == config.VERSION and stat
 check("previous_version_preserved", layout.version_dir(old).is_dir())
 
 # A correctly signed release that cannot start must roll back without touching user data.
-bad_version = "0.2.1"
+parts = tuple(map(int, config.VERSION.split(".")))
+bad_version = f"{parts[0]}.{parts[1]}.{parts[2] + 1}"
 bad_archive = args.workspace / "bad.zip"
 with zipfile.ZipFile(bad_archive, "w") as archive:
     archive.writestr("FileSearchApp.exe", b"MZbroken executable")
