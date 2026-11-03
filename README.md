@@ -1,6 +1,4 @@
-# FileSearch 복원 프로젝트
-
-기존 `FileSearch.exe`에서 복원한 Windows용 Python 프로젝트예요. `main.py`, `collector`, `common`, `searcher`의 원래 모듈 구성을 살렸어요. GitHub 접속 없이 폴더를 열어 코드를 수정하고 실행할 수 있어요.
+# FileSearch
 
 ## 실행
 
