@@ -2,8 +2,11 @@
 import os
 import sys
 import time
+import tempfile
+from contextlib import ExitStack
+from pathlib import Path
 
-from PySide6.QtCore import QLibraryInfo, Qt, QTranslator
+from PySide6.QtCore import QLibraryInfo, Qt, QTranslator, QTimer
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QApplication, QButtonGroup, QDialog, QFrame, QHBoxLayout, QLabel,
@@ -26,6 +29,8 @@ from searcher.workers import SearchThread
 
 from tagger.controller import TagController
 from tagger.widgets import TagBar, TagSidebar
+from updater.ui import UpdateController, acknowledge_startup
+from updater.storage import Layout, install_lock
 
 
 class MainWindow(QMainWindow):
@@ -46,6 +51,13 @@ class MainWindow(QMainWindow):
         self.build_status_bar()
         self.tags = TagController(self)
         self.duplicates = DuplicateController(self)
+        self.updates = UpdateController(self, automatic="--self-test" not in sys.argv)
+
+    def closeEvent(self, event):
+        if self.updates.allow_close():
+            super().closeEvent(event)
+        else:
+            event.ignore()
 
     def build_sidebar(self):
         sidebar = QFrame()
@@ -223,15 +235,29 @@ class MainWindow(QMainWindow):
 
 
 def main():
-    app = QApplication(sys.argv)
-    app.setFont(QFont("Malgun Gothic", 10))
-    app.setStyleSheet(STYLE)
-    translator = QTranslator(app)
-    if translator.load("qtbase_ko", QLibraryInfo.path(QLibraryInfo.TranslationsPath)):
-        app.installTranslator(translator)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
+    with ExitStack() as resources:
+        self_test = "--self-test" in sys.argv
+        if self_test:
+            os.environ["QT_QPA_PLATFORM"] = "offscreen"
+            temporary = resources.enter_context(tempfile.TemporaryDirectory(prefix="filesearch-startup-"))
+            from common import settings
+            settings.SETTINGS_PATH = str(Path(temporary) / "profile/settings.json")
+        install_root = os.environ.get("FILESEARCH_INSTALL_ROOT")
+        if getattr(sys, "frozen", False) and install_root:
+            resources.enter_context(install_lock(Layout(install_root), "app.lock"))
+        app = QApplication(sys.argv)
+        app.setFont(QFont("Malgun Gothic", 10))
+        app.setStyleSheet(STYLE)
+        translator = QTranslator(app)
+        if translator.load("qtbase_ko", QLibraryInfo.path(QLibraryInfo.TranslationsPath)):
+            app.installTranslator(translator)
+        window = MainWindow()
+        window.show()
+        QTimer.singleShot(250, acknowledge_startup)
+        if self_test:
+            QTimer.singleShot(1000, window.close)
+        result = app.exec()
+    sys.exit(result)
 
 
 if __name__ == "__main__":

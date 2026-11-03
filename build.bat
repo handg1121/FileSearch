@@ -39,13 +39,13 @@ if errorlevel 1 goto failed
 echo [2/2] Building FileSearch.exe from current source...
 echo Close any running dist\FileSearch\FileSearch.exe before rebuilding.
 set "PYINSTALLER_CONFIG_DIR=%CD%\build\.pyinstaller-cache"
-"%BUILD_PYTHON%" -m PyInstaller --clean --noconfirm --distpath "%CD%\dist" --workpath "%CD%\build" "FileSearch.spec"
+"%BUILD_PYTHON%" tools\build_release.py
 if errorlevel 1 goto failed
-if not exist "dist\FileSearch\FileSearch.exe" goto failed
+rem build_release.py verifies the output and signed release assets.
 set "BUILD_EXIT_CODE=0"
 echo.
-echo Build completed: "%CD%\dist\FileSearch\FileSearch.exe"
-echo Keep the entire dist\FileSearch folder together, including _internal.
+echo Build completed. See dist\FileSearch-VERSION and dist\releases\VERSION.
+echo Keep the whole versioned application folder together.
 goto finish
 
 :missing_python
