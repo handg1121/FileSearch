@@ -95,13 +95,14 @@ def run_session(layout, *, start=start_application, ready=await_ready, extra_arg
         process.wait()
         wants_restart = restart.exists()
         restart.unlink(missing_ok=True)
+        notice = ""
         try:
             state = layout.activate_pending(state)
         except Exception as error:
             record_error(layout, error)
+            notice = "업데이트를 적용하지 못했어요. 기존 버전으로 계속 사용할 수 있어요."
         if not wants_restart:
             return
-        notice = ""
 
 
 def record_error(layout, error):

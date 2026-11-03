@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import shutil
 import tempfile
+import time
 import uuid
 
 from updater import config
@@ -31,6 +32,19 @@ def remove_owned_tree(path, parent):
         raise UpdateError("업데이트 정리 경로가 올바르지 않아요.")
     if path.exists():
         shutil.rmtree(path)
+
+
+def move_version_folder(source, destination):
+    """Newly extracted DLLs can briefly prevent Windows from renaming their folder."""
+    delays = (0.25, 0.5, 1, 2, 3, 3)
+    for attempt in range(len(delays) + 1):
+        try:
+            os.replace(source, destination)
+            return
+        except OSError as error:
+            if getattr(error, "winerror", None) not in (5, 32, 33) or attempt == len(delays):
+                raise
+            time.sleep(delays[attempt])
 
 
 class Layout:
@@ -122,7 +136,7 @@ class Layout:
                 if release["version"] in (state["active"], state["previous"]):
                     raise UpdateError("사용 중인 버전은 교체할 수 없어요.")
                 remove_owned_tree(destination, self.versions)
-            os.replace(staging, destination)
+            move_version_folder(staging, destination)
             installed = list(dict.fromkeys(state.get("installed", [state["active"]]) + [release["version"]]))
             new_state = dict(state, previous=state["active"], active=release["version"], trial=release["version"],
                              attempting=False, installed=installed)

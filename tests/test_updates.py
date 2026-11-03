@@ -14,7 +14,7 @@ import zipfile
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from updater import config, protocol
 from updater.launcher import await_ready, run_session
-from updater.storage import Layout, atomic_write, install_lock, json_bytes
+from updater.storage import Layout, atomic_write, install_lock, json_bytes, move_version_folder
 
 
 class FakeProcess:
@@ -208,6 +208,47 @@ class UpdateTests(unittest.TestCase):
             self.layout.activate_pending(self.state)
         self.assertEqual(self.layout.read_state(), self.state)
 
+    def test_transient_windows_lock_is_retried_before_state_commit(self):
+        self.pending()
+        original = os.replace
+        attempts = []
+        def replace(source, destination):
+            if Path(source).parent == self.layout.staging:
+                attempts.append(source)
+                if len(attempts) < 6:
+                    self.assertEqual(self.layout.read_state(), self.state)
+                    error = PermissionError('temporary Windows lock')
+                    error.winerror = 5
+                    raise error
+            return original(source, destination)
+        with patch('updater.storage.os.replace', side_effect=replace), patch('updater.storage.time.sleep') as sleep:
+            updated = self.layout.activate_pending(self.state)
+        self.assertEqual(updated['active'], self.version)
+        self.assertEqual(len(attempts), 6)
+        self.assertEqual(sleep.call_count, 5)
+        self.assertTrue(self.layout.state_path.is_file())
+
+    def test_persistent_windows_lock_keeps_previous_and_pending_for_retry(self):
+        self.pending()
+        error = PermissionError('persistent Windows lock')
+        error.winerror = 32
+        with patch('updater.storage.os.replace', side_effect=error) as replace, \
+                patch('updater.storage.time.sleep') as sleep, self.assertRaises(PermissionError):
+            self.layout.activate_pending(self.state)
+        self.assertEqual(replace.call_count, 7)
+        self.assertEqual(sleep.call_count, 6)
+        self.assertEqual(self.layout.read_state(), self.state)
+        self.assertTrue(self.layout.pending_path.is_file())
+        self.assertFalse(self.layout.version_dir(self.version).exists())
+        self.assertEqual(list(self.layout.staging.iterdir()), [])
+
+    def test_non_lock_error_is_not_retried(self):
+        with patch('updater.storage.os.replace', side_effect=OSError('disk error')) as replace, \
+                patch('updater.storage.time.sleep') as sleep, self.assertRaises(OSError):
+            move_version_folder(self.root / 'source', self.root / 'destination')
+        replace.assert_called_once()
+        sleep.assert_not_called()
+
     def test_cancelled_extraction_leaves_previous_active(self):
         self.pending()
         with patch("updater.storage.unpack", side_effect=protocol.Cancelled()), self.assertRaises(protocol.Cancelled):
@@ -310,6 +351,19 @@ class UpdateTests(unittest.TestCase):
         run_session(self.layout, start=start, ready=lambda process, *args: not process.alive)
         self.assertTrue(processes[0].terminated)
         self.assertEqual(self.layout.read_state()["active"], config.VERSION)
+
+    def test_failed_restart_keeps_failure_notice(self):
+        seen = []
+        def start(layout, state, ack, token, notice, *args):
+            seen.append((state['active'], notice))
+            if len(seen) == 1:
+                atomic_write(layout.work / ('restart-' + token), b'restart')
+            atomic_write(ack, json_bytes({'version': state['active'], 'token': token}))
+            return FakeProcess()
+        with patch.object(self.layout, 'activate_pending', side_effect=[self.state, PermissionError('locked'), self.state]):
+            run_session(self.layout, start=start)
+        self.assertEqual([version for version, _ in seen], [config.VERSION, config.VERSION])
+        self.assertIn('적용하지 못했어요', seen[1][1])
 
     def test_crashed_launcher_trial_is_rolled_back_next_time(self):
         self.pending()

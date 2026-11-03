@@ -73,7 +73,8 @@ class UpdateController(QObject):
             if not getattr(sys, "frozen", False) or not root:
                 return  # Source development and existing GUI tests do not use the network.
             self.layout = Layout(root)
-        self.label = QLabel(os.environ.get("FILESEARCH_UPDATE_NOTICE", ""))
+        self.startup_notice = os.environ.get("FILESEARCH_UPDATE_NOTICE", "")
+        self.label = QLabel(self.startup_notice)
         self.button = QPushButton("업데이트 확인")
         self.button.setObjectName("linkButton")
         self.button.setCursor(Qt.PointingHandCursor)
@@ -108,14 +109,15 @@ class UpdateController(QObject):
         self.button.setEnabled(True)
         if worker.result == "ready":
             self.ready = True
-            self.label.setText("업데이트가 준비됐어요. 다음 실행부터 적용돼요.")
+            self.label.setText("업데이트 적용에 실패했어요. 다시 시작해 재시도해 주세요." if self.startup_notice else
+                               "업데이트가 준비됐어요. 다음 실행부터 적용돼요.")
             self.button.setText("지금 다시 시작")
         elif worker.result == "latest" and self.manual:
-            self.label.setText("최신 버전이에요.")
+            self.label.setText(f"최신 버전이에요. ({config.VERSION})")
         elif worker.result == "deferred" and self.manual:
             self.label.setText("다음 업데이트를 기다리고 있어요. 현재 버전을 계속 사용해 주세요.")
         elif worker.result == "error":
-            self.label.setText("업데이트를 확인하지 못했어요. 나중에 다시 시도해 주세요." if self.manual else "")
+            self.label.setText("업데이트를 확인하지 못했어요. 나중에 다시 시도해 주세요." if self.manual else self.startup_notice)
         worker.deleteLater()
         if self.closing:
             QTimer.singleShot(0, self.window.close)

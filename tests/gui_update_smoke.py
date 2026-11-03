@@ -123,5 +123,16 @@ with patch("updater.ui.fetch_manifest", side_effect=slow_fetch):
     window.close()
     check("shutdown_waits_for_worker", ui.closing and window.isVisible())
     wait_until(lambda: ui.worker is None and not window.isVisible())
+with patch.dict(os.environ, {"FILESEARCH_UPDATE_NOTICE": "업데이트를 적용하지 못했어요."}):
+    window = main.MainWindow()
+    window.updates = UpdateController(window, layout=layout, automatic=False)
+window.show()
+ui = window.updates
+check("version_in_window_title", config.VERSION in window.windowTitle())
+with patch.object(config, "PUBLIC_KEY", public), patch("updater.ui.fetch_manifest", return_value=raw):
+    ui.check()
+    wait_until(lambda: ui.worker is None)
+check("apply_failure_not_overwritten_by_ready", ui.ready and "적용에 실패" in ui.label.text())
+window.close()
 check("no_qt_slot_errors", not errors)
 (args.artifacts / "update_gui_results.json").write_text(json.dumps({"passed": len(checks), "checks": checks}, indent=2), encoding="utf-8")

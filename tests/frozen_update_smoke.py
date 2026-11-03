@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from updater import config
 from updater.protocol import json_bytes, verify_manifest
-from updater.storage import Layout, atomic_write
+from updater.storage import Layout, atomic_write, move_version_folder
 from tools.release_key import load_key
 
 parser = argparse.ArgumentParser()
@@ -50,7 +50,7 @@ launch()
 check("initial_launch", not layout.state_path.exists())
 # Simulate an older managed installation, then install the real signed 0.2.0 payload.
 old = "0.1.0"
-os.replace(layout.version_dir(config.VERSION), layout.version_dir(old))
+move_version_folder(layout.version_dir(config.VERSION), layout.version_dir(old))
 state = dict(layout.read_state(), active=old, installed=[old])
 layout.save_state(state)
 release_dir = ROOT / "dist/releases" / config.VERSION

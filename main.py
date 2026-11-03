@@ -29,6 +29,7 @@ from searcher.workers import SearchThread
 
 from tagger.controller import TagController
 from tagger.widgets import TagBar, TagSidebar
+from updater import config as app_config
 from updater.ui import UpdateController, acknowledge_startup
 from updater.storage import Layout, install_lock
 
@@ -36,7 +37,7 @@ from updater.storage import Layout, install_lock
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("파일 검색기")
+        self.setWindowTitle(f"파일 검색기 · {app_config.VERSION}")
         self.resize(1500, 920)
         self.root_dir = get_save_dir()
         self.active_tag_id = None
