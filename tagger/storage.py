@@ -135,6 +135,17 @@ def delete_tag(tag_ids, db_path=None):
         return count
 
 
+def forget_deleted_file(path, db_path=None):
+    """휴지통 이동 성공 후 경로의 태그·추적·캐시 기록만 정리해요. 태그 정의는 보존해요."""
+    key = next(iter(_paths([path])))
+    with _connect(db_path) as connection, connection:
+        connection.execute("BEGIN IMMEDIATE")
+        tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        for table in ("file_tags", "tracked_files", "body_cache", "file_hashes"):
+            if table in tables:
+                connection.execute(f"DELETE FROM {table} WHERE path_key = ?", (key,))
+
+
 def show_tag(db_path=None, *, paths=None):
     """화면에 표시할 태그와 부착 파일 수를 반환해요. paths 지정 시 그 파일들의 태그만 읽어요."""
     keys = _paths(paths) if paths is not None else None

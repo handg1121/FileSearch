@@ -35,6 +35,12 @@ QWidget { color: #1f2937; }
 }
 #primaryButton:hover { background: #155fd0; }
 #primaryButton:disabled { background: #a9c6f7; }
+#dangerButton {
+    background: #dc2626; color: white; border: none; border-radius: 6px;
+    padding: 8px 22px; font-weight: bold;
+}
+#dangerButton:hover { background: #b91c1c; }
+#dangerButton:disabled { background: #f1b4b4; color: #fff5f5; }
 #secondaryButton {
     background: white; border: 1px solid #cfd6de; border-radius: 6px; padding: 7px 16px;
 }

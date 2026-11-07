@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
 from common.file_actions import open_file, open_folder
 from common.widgets import format_size, make_button, make_label, make_type_icon, transparent_widget
 from searcher.filename_search import SORT_ORDERS, sort_hits
+from searcher.metadata import path_key
 from tagger.badges import BADGES_ROLE, TagBadgeDelegate
 from tagger.colors import DEFAULT_TAG_COLOR
 
@@ -128,6 +129,24 @@ class ResultPanel(QWidget):
         self.current_page = 0
         self.render_page()
 
+    def remove_paths(self, paths):
+        """삭제 성공한 파일만 빼고 정렬·페이지와 남은 파일의 체크 선택을 유지해요."""
+        keys = {path_key(path) for path in paths}
+        if not keys:
+            return
+        checked = {path_key(hit.path) for hit in self.table.checked_hits()}
+        row = self.table.currentRow()
+        current = path_key(self.table.hits[row].path) if 0 <= row < len(self.table.hits) else None
+        self.hits = [hit for hit in self.hits if path_key(hit.path) not in keys]
+        self.ordered_hits = [hit for hit in self.ordered_hits if path_key(hit.path) not in keys]
+        self.render_page()
+        for row, hit in enumerate(self.table.hits):
+            key = path_key(hit.path)
+            if key in checked:
+                self.table.item(row, COL_CHECK).setCheckState(Qt.Checked)
+            if key == current:
+                self.table.setCurrentCell(row, COL_NAME)
+
     def render_page(self):
         total = len(self.ordered_hits)
         pages = self.page_count
@@ -153,6 +172,7 @@ class ResultTable(QTableWidget):
     current_hit_changed = Signal(object)
     checked_count_changed = Signal(int)
     hits_changed = Signal()
+    delete_requested = Signal(str)
 
     def __init__(self, parent=None):
         super().__init__(0, 5, parent)
@@ -250,7 +270,13 @@ class ResultTable(QTableWidget):
         menu = QMenu(self)
         menu.addAction("파일 열기", lambda: self.open_and_report(open_file, path))
         menu.addAction("폴더 열기", lambda: self.open_and_report(open_folder, path))
-        menu.exec(self.viewport().mapToGlobal(pos))
+        menu.addSeparator()
+        delete_action = menu.addAction("삭제", lambda: self.delete_requested.emit(path))
+        delete_action.setToolTip("이 파일을 휴지통으로 보내요.")
+        try:
+            menu.exec(self.viewport().mapToGlobal(pos))
+        finally:
+            menu.deleteLater()
 
     def open_and_report(self, action, path):
         error = action(path)

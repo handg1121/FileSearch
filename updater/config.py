@@ -1,4 +1,4 @@
-VERSION = "0.2.5"
+VERSION = "0.2.6"
 REPOSITORY = "handg1121/FileSearch"
 MANIFEST_URL = f"https://github.com/{REPOSITORY}/releases/latest/download/update.json"
 # Generated once on the release machine; the private key is never distributed.

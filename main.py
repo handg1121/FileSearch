@@ -20,6 +20,7 @@ from common.widgets import (
     STYLE, make_button, make_label, make_separator,
 )
 from duplicates.controller import DuplicateController
+from searcher.file_controller import FileController
 from searcher.filename_search import modified_since, parse_keywords
 from searcher.preview_panel import PreviewPanel
 from searcher.result_table import ResultPanel
@@ -51,6 +52,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central)
         self.build_status_bar()
         self.tags = TagController(self)
+        self.files = FileController(self)
         self.duplicates = DuplicateController(self)
         self.updates = UpdateController(self, automatic="--self-test" not in sys.argv)
 
@@ -135,6 +137,12 @@ class MainWindow(QMainWindow):
         collect_button.setStyleSheet("font-size: 12pt; padding: 8px 28px;")
         collect_button.clicked.connect(self.open_collect_dialog)
         header.addWidget(collect_button, 0, Qt.AlignTop)
+        self.delete_button = make_button("선택 삭제", "dangerButton")
+        self.delete_button.setMinimumHeight(48)
+        self.delete_button.setStyleSheet("font-size: 12pt; padding: 8px 28px;")
+        self.delete_button.setToolTip("현재 페이지에서 체크한 파일만 휴지통으로 보내요.")
+        self.delete_button.setEnabled(False)
+        header.addWidget(self.delete_button, 0, Qt.AlignTop)
         return header
 
     def open_collect_dialog(self):
@@ -152,6 +160,7 @@ class MainWindow(QMainWindow):
 
     def update_selected_count(self, count):
         self.tag_bar.set_selected_count(count)
+        self.delete_button.setEnabled(count > 0)
 
     def show_all_files(self):
         """검색어를 비운 뒤 검색 버튼을 누른 것과 같은 조건으로 조회해요."""
